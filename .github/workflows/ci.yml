@@ -81,7 +81,7 @@ jobs:
     
     - name: Run linters
       run: |
-        flake8 app/ --max-line-length=120 --ignore=E501,W503
+        flake8 app/ --max-line-length=120 --ignore=E501,W503 --show-source --statistics
 
   # Build and Test Demo Dashboard
   test-demo-dashboard:
@@ -97,8 +97,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18'
-        cache: 'npm'
-        cache-dependency-path: apps/demo-dashboard/package-lock.json
     
     - name: Install dependencies
       run: npm install
@@ -127,8 +125,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18'
-        cache: 'npm'
-        cache-dependency-path: apps/customer-dashboard/package-lock.json
     
     - name: Install dependencies
       run: npm install
