@@ -53,12 +53,12 @@ def retrain_whale_model():
         # 6. Save model if improved
 
         # Placeholder training logic
-        model_path = os.path.join(settings.MODEL_PATH, "whale_model.pkl")
+        # _model_path = os.path.join(settings.MODEL_PATH, "whale_model.pkl")
 
         # from sklearn.ensemble import RandomForestClassifier
         # model = RandomForestClassifier()
         # model.fit(X_train, y_train)
-        # joblib.dump(model, model_path)
+        # joblib.dump(model, _model_path)
 
         logger.info("Whale model retraining completed")
         return {

@@ -26,10 +26,9 @@ class WhalePredictor(BaseModel):
     def load(self) -> None:
         """Load whale prediction model and scaler from disk."""
         try:
-            _model_file = os.path.join(self.model_path, "whale_model.pkl")
-            _scaler_file = os.path.join(self.model_path, "whale_scaler.pkl")
-
             # TODO: Uncomment when model files exist
+            # _model_file = os.path.join(self.model_path, "whale_model.pkl")
+            # _scaler_file = os.path.join(self.model_path, "whale_scaler.pkl")
             # self.model = joblib.load(_model_file)
             # self.scaler = joblib.load(_scaler_file)
 
