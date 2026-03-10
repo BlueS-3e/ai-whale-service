@@ -111,27 +111,27 @@ def retrain_sentiment_model():
 def retrain_risk_model():
     """
     Retrain risk assessment model with latest data.
-    
+
     Returns:
         Training results
     """
     try:
         logger.info("Retraining risk assessment model")
-        
+
         # TODO: Implement training pipeline
         # 1. Collect historical risk factors and outcomes
         # 2. Feature engineering
         # 3. Train model
         # 4. Evaluate
         # 5. Save if improved
-        
+
         logger.info("Risk model retraining completed")
         return {
             "model": "risk_scorer",
             "mae": 8.5,
             "timestamp": "2024-01-15T12:00:00"
         }
-        
+
     except Exception as e:
         logger.error(f"Risk model retraining failed: {e}")
         raise
