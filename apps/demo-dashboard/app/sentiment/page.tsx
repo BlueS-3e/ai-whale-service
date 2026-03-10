@@ -9,12 +9,19 @@ import { sentimentApi } from "@/lib/api-client";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { AISpaceBackground } from "@/components/animated-background";
 
+interface SentimentAnalysis {
+  sentiment_label: string;
+  sentiment_score: number;
+  confidence: number;
+  entities?: string[];
+}
+
 export default function SentimentPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [text, setText] = useState("Bitcoin is going to the moon! 🚀 This is the next bull run!");
   const [coinSymbol, setCoinSymbol] = useState("BTC");
   const [loading, setLoading] = useState(false);
-  const [sentiment, setSentiment] = useState<any>(null);
+  const [sentiment, setSentiment] = useState<SentimentAnalysis | null>(null);
 
   const analyzeText = async () => {
     setLoading(true);
@@ -310,21 +317,21 @@ export default function SentimentPage() {
                 className="w-full text-left p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
               >
                 <div className="font-medium text-sm">Bullish Example</div>
-                <div className="text-xs text-muted-foreground">"Bitcoin is going to the moon! 🚀..."</div>
+                <div className="text-xs text-muted-foreground">&quot;Bitcoin is going to the moon! 🚀...&quot;</div>
               </button>
               <button
                 onClick={() => setText("Market crash incoming. Sell everything now. This is going to dump hard.")}
                 className="w-full text-left p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
               >
                 <div className="font-medium text-sm">Bearish Example</div>
-                <div className="text-xs text-muted-foreground">"Market crash incoming. Sell everything..."</div>
+                <div className="text-xs text-muted-foreground">&quot;Market crash incoming. Sell everything...&quot;</div>
               </button>
               <button
                 onClick={() => setText("The market is stable today. No significant movements expected.")}
                 className="w-full text-left p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
               >
                 <div className="font-medium text-sm">Neutral Example</div>
-                <div className="text-xs text-muted-foreground">"The market is stable today..."</div>
+                <div className="text-xs text-muted-foreground">&quot;The market is stable today...&quot;</div>
               </button>
             </CardContent>
           </Card>

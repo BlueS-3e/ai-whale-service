@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Activity, TrendingUp, MessageSquare, AlertTriangle, Brain, Shield, Menu, X } from "lucide-react";
+import { Activity, TrendingUp, MessageSquare, AlertTriangle, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/theme-toggle";

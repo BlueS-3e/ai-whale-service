@@ -14,7 +14,7 @@ export default function PlaygroundPage() {
   const [activeTab, setActiveTab] = useState<"whale" | "sentiment" | "risk">("whale");
   const [apiKey, setApiKeyValue] = useState("supersecretkey");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<Record<string, unknown> | null>(null);
 
   // Whale Prediction State
   const [walletAddress, setWalletAddress] = useState("0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb");
@@ -40,8 +40,8 @@ export default function PlaygroundPage() {
         timeframe,
       });
       setResult(data);
-    } catch (error: any) {
-      setResult({ error: error.message });
+    } catch (error: unknown) {
+      setResult({ error: error instanceof Error ? error.message : String(error) });
     } finally {
       setLoading(false);
     }
@@ -57,8 +57,8 @@ export default function PlaygroundPage() {
         coin_symbol: sentimentCoin,
       });
       setResult(data);
-    } catch (error: any) {
-      setResult({ error: error.message });
+    } catch (error: unknown) {
+      setResult({ error: error instanceof Error ? error.message : String(error) });
     } finally {
       setLoading(false);
     }
@@ -74,8 +74,8 @@ export default function PlaygroundPage() {
         chain,
       });
       setResult(data);
-    } catch (error: any) {
-      setResult({ error: error.message });
+    } catch (error: unknown) {
+      setResult({ error: error instanceof Error ? error.message : String(error) });
     } finally {
       setLoading(false);
     }

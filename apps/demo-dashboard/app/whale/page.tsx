@@ -9,12 +9,20 @@ import { whaleApi } from "@/lib/api-client";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { AISpaceBackground } from "@/components/animated-background";
 
+interface WhalePrediction {
+  movement_probability: number;
+  predicted_action: string;
+  risk_level: string;
+  confidence: number;
+  estimated_amount?: number;
+}
+
 export default function WhalePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [walletAddress, setWalletAddress] = useState("0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb");
   const [coinSymbol, setCoinSymbol] = useState("BTC");
   const [loading, setLoading] = useState(false);
-  const [prediction, setPrediction] = useState<any>(null);
+  const [prediction, setPrediction] = useState<WhalePrediction | null>(null);
 
   const analyzeTrans = async () => {
     setLoading(true);

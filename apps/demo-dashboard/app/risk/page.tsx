@@ -9,12 +9,21 @@ import { riskApi } from "@/lib/api-client";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { AISpaceBackground } from "@/components/animated-background";
 
+interface RiskAssessment {
+  overall_risk_score: number;
+  smart_contract_risk: number;
+  liquidity_risk: number;
+  volatility_risk: number;
+  whale_concentration_risk: number;
+  sentiment_risk: number;
+}
+
 export default function RiskPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [coinSymbol, setCoinSymbol] = useState("DOGE");
   const [chain, setChain] = useState("ethereum");
   const [loading, setLoading] = useState(false);
-  const [riskData, setRiskData] = useState<any>(null);
+  const [riskData, setRiskData] = useState<RiskAssessment | null>(null);
 
   const assessRisk = async () => {
     setLoading(true);

@@ -283,7 +283,7 @@ export function AISpaceBackground() {
     return () => {
       window.removeEventListener('resize', setCanvasSize);
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <>
