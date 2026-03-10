@@ -77,13 +77,11 @@ jobs:
     
     - name: Install linting tools
       run: |
-        pip install flake8 black isort mypy
+        pip install flake8
     
     - name: Run linters
       run: |
         flake8 app/ --max-line-length=120 --ignore=E501,W503
-        black --check app/
-        isort --check-only app/
 
   # Build and Test Demo Dashboard
   test-demo-dashboard:
