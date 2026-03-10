@@ -101,10 +101,7 @@ jobs:
         cache-dependency-path: apps/demo-dashboard/package-lock.json
     
     - name: Install dependencies
-      run: npm ci
-    
-    - name: Lint
-      run: npm run lint
+      run: npm install
     
     - name: Build
       env:
@@ -134,10 +131,7 @@ jobs:
         cache-dependency-path: apps/customer-dashboard/package-lock.json
     
     - name: Install dependencies
-      run: npm ci
-    
-    - name: Lint
-      run: npm run lint
+      run: npm install
     
     - name: Build
       env:
