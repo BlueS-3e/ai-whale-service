@@ -25,10 +25,10 @@ Base = declarative_base()
 def get_db() -> Generator[Session, None, None]:
     """
     Dependency function to get database session.
-    
+
     Yields:
         Session: SQLAlchemy database session
-        
+
     Example:
         @app.get("/items/")
         def read_items(db: Session = Depends(get_db)):

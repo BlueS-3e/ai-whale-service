@@ -19,11 +19,11 @@ logger = logging.getLogger(__name__)
 
 class BlockchainRPC:
     """Manages RPC connections to multiple blockchains"""
-    
+
     def __init__(self):
         self.connections: Dict[str, Web3] = {}
         self._initialize_connections()
-    
+
     def _initialize_connections(self):
         """Initialize RPC connections for supported chains"""
         rpc_urls = {
@@ -33,15 +33,15 @@ class BlockchainRPC:
             'arbitrum': os.getenv('ARBITRUM_RPC_URL', 'https://arb1.arbitrum.io/rpc'),
             'base': os.getenv('BASE_RPC_URL', 'https://mainnet.base.org'),
         }
-        
+
         for chain, url in rpc_urls.items():
             try:
                 w3 = Web3(Web3.HTTPProvider(url))
-                
+
                 # Note: geth_poa_middleware is deprecated in web3 v7+
                 # PoA chains (BSC, Polygon) work without it in newer versions
                 # If needed, use: from web3.middleware import ExtraDataToPOAMiddleware
-                
+
                 if w3.is_connected():
                     self.connections[chain] = w3
                     logger.info(f"Connected to {chain} RPC")
@@ -49,21 +49,21 @@ class BlockchainRPC:
                     logger.warning(f"Failed to connect to {chain} RPC")
             except Exception as e:
                 logger.error(f"Error connecting to {chain}: {e}")
-    
+
     def get_connection(self, chain: str = 'ethereum') -> Optional[Web3]:
         """Get Web3 connection for specified chain"""
         return self.connections.get(chain.lower())
-    
+
     async def get_wallet_balance(self, address: str, chain: str = 'ethereum') -> Dict[str, Any]:
         """Get native token balance for a wallet"""
         w3 = self.get_connection(chain)
         if not w3:
             return {'error': f'Chain {chain} not connected'}
-        
+
         try:
             balance_wei = w3.eth.get_balance(address)
             balance_eth = w3.from_wei(balance_wei, 'ether')
-            
+
             return {
                 'address': address,
                 'chain': chain,
@@ -74,17 +74,17 @@ class BlockchainRPC:
         except Exception as e:
             logger.error(f"Error fetching balance for {address} on {chain}: {e}")
             return {'error': str(e)}
-    
+
     async def get_transaction(self, tx_hash: str, chain: str = 'ethereum') -> Dict[str, Any]:
         """Get transaction details"""
         w3 = self.get_connection(chain)
         if not w3:
             return {'error': f'Chain {chain} not connected'}
-        
+
         try:
             tx = w3.eth.get_transaction(tx_hash)
             receipt = w3.eth.get_transaction_receipt(tx_hash)
-            
+
             return {
                 'hash': tx_hash,
                 'from': tx['from'],
@@ -98,9 +98,9 @@ class BlockchainRPC:
         except Exception as e:
             logger.error(f"Error fetching transaction {tx_hash} on {chain}: {e}")
             return {'error': str(e)}
-    
+
     async def get_recent_whale_transactions(
-        self, 
+        self,
         chain: str = 'ethereum',
         min_value_eth: float = 10.0,
         blocks_back: int = 10
@@ -109,16 +109,16 @@ class BlockchainRPC:
         w3 = self.get_connection(chain)
         if not w3:
             return []
-        
+
         try:
             current_block = w3.eth.block_number
             whale_txs = []
             min_value_wei = w3.to_wei(min_value_eth, 'ether')
-            
+
             # Scan recent blocks for whale transactions
             for block_num in range(current_block - blocks_back, current_block):
                 block = w3.eth.get_block(block_num, full_transactions=True)
-                
+
                 for tx in block['transactions']:
                     if tx['value'] >= min_value_wei:
                         whale_txs.append({
@@ -130,12 +130,12 @@ class BlockchainRPC:
                             'timestamp': block['timestamp'],
                             'chain': chain,
                         })
-            
+
             return sorted(whale_txs, key=lambda x: x['value_eth'], reverse=True)[:50]
         except Exception as e:
             logger.error(f"Error fetching whale transactions on {chain}: {e}")
             return []
-    
+
     async def get_token_balance(
         self,
         wallet_address: str,
@@ -146,7 +146,7 @@ class BlockchainRPC:
         w3 = self.get_connection(chain)
         if not w3:
             return {'error': f'Chain {chain} not connected'}
-        
+
         try:
             # ERC20 balanceOf ABI
             abi = [{
@@ -156,10 +156,10 @@ class BlockchainRPC:
                 "outputs": [{"name": "balance", "type": "uint256"}],
                 "type": "function"
             }]
-            
+
             contract = w3.eth.contract(address=token_address, abi=abi)
             balance = contract.functions.balanceOf(wallet_address).call()
-            
+
             return {
                 'wallet': wallet_address,
                 'token': token_address,
@@ -170,7 +170,7 @@ class BlockchainRPC:
         except Exception as e:
             logger.error(f"Error fetching token balance: {e}")
             return {'error': str(e)}
-    
+
     def _get_native_symbol(self, chain: str) -> str:
         """Get native token symbol for chain"""
         symbols = {
@@ -181,11 +181,11 @@ class BlockchainRPC:
             'base': 'ETH',
         }
         return symbols.get(chain.lower(), 'UNKNOWN')
-    
+
     def get_supported_chains(self) -> List[str]:
         """Get list of connected chains"""
         return list(self.connections.keys())
-    
+
     def health_check(self) -> Dict[str, Any]:
         """Check health of all RPC connections"""
         health = {}

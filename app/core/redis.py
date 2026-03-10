@@ -12,12 +12,12 @@ _redis_client: Optional[Redis] = None
 async def get_redis() -> Redis:
     """
     Get or create Redis client connection.
-    
+
     Returns:
         Redis: Async Redis client instance
     """
     global _redis_client
-    
+
     if _redis_client is None:
         try:
             _redis_client = await aioredis.from_url(
@@ -32,14 +32,14 @@ async def get_redis() -> Redis:
         except Exception as e:
             logger.error(f"Failed to connect to Redis: {e}")
             raise
-    
+
     return _redis_client
 
 
 async def close_redis() -> None:
     """Close Redis connection."""
     global _redis_client
-    
+
     if _redis_client:
         await _redis_client.close()
         _redis_client = None
@@ -48,10 +48,10 @@ async def close_redis() -> None:
 
 class RedisCache:
     """Redis cache utility class."""
-    
+
     def __init__(self, redis_client: Redis):
         self.redis = redis_client
-    
+
     async def get(self, key: str) -> Optional[str]:
         """Get value from cache."""
         try:
@@ -59,11 +59,11 @@ class RedisCache:
         except Exception as e:
             logger.error(f"Redis GET error: {e}")
             return None
-    
+
     async def set(self, key: str, value: str, ttl: int = None) -> bool:
         """
         Set value in cache.
-        
+
         Args:
             key: Cache key
             value: Value to cache
@@ -76,7 +76,7 @@ class RedisCache:
         except Exception as e:
             logger.error(f"Redis SET error: {e}")
             return False
-    
+
     async def delete(self, key: str) -> bool:
         """Delete key from cache."""
         try:
@@ -85,7 +85,7 @@ class RedisCache:
         except Exception as e:
             logger.error(f"Redis DELETE error: {e}")
             return False
-    
+
     async def exists(self, key: str) -> bool:
         """Check if key exists in cache."""
         try:

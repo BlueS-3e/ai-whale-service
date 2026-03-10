@@ -9,7 +9,7 @@ class WhalePredictionRequest(BaseModel):
     wallet_address: str = Field(..., description="Blockchain wallet address")
     coin_symbol: str = Field(..., description="Cryptocurrency symbol (e.g., BTC, ETH)")
     timeframe: str = Field(default="24h", description="Prediction timeframe: 1h, 24h, 7d")
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -31,7 +31,7 @@ class WhalePredictionResponse(BaseModel):
     risk_level: str = Field(..., description="low, medium, high")
     factors: dict = Field(..., description="Key factors influencing prediction")
     timestamp: datetime = Field(default_factory=datetime.utcnow)
-    
+
     class Config:
         json_schema_extra = {
             "example": {

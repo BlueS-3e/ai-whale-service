@@ -26,10 +26,10 @@ logger.propagate = False
 def get_logger(name: str) -> logging.Logger:
     """
     Get a logger instance for a specific module.
-    
+
     Args:
         name: Module name
-        
+
     Returns:
         logging.Logger: Configured logger
     """

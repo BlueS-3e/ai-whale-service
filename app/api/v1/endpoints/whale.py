@@ -23,27 +23,27 @@ async def predict_whale_movement(
 ):
     """
     Predict whale movement probability for a given wallet and coin.
-    
+
     Analyzes:
     - Historical transaction patterns
     - Wallet balance changes
     - Social sentiment
     - Market conditions
-    
+
     Returns probability score (0-1) and confidence level.
     """
     try:
         logger.info(f"Whale prediction request: {request.wallet_address} - {request.coin_symbol}")
         result = await service.predict(request.wallet_address, request.coin_symbol)
-        
+
         if not result:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Insufficient data for prediction"
             )
-        
+
         return result
-    
+
     except Exception as e:
         logger.error(f"Whale prediction error: {e}")
         raise HTTPException(
@@ -60,7 +60,7 @@ async def get_whale_history(
 ):
     """
     Get historical whale transaction data for a wallet.
-    
+
     Returns:
     - Transaction history
     - Volume patterns
@@ -73,9 +73,9 @@ async def get_whale_history(
             request.limit,
             request.offset
         )
-        
+
         return history
-    
+
     except Exception as e:
         logger.error(f"Whale history error: {e}")
         raise HTTPException(
@@ -93,13 +93,13 @@ async def get_top_whales(
 ):
     """
     Get top whale wallets for a specific coin.
-    
+
     Returns list of largest holders and their activity scores.
     """
     try:
         whales = await service.get_top_whales(coin_symbol, limit)
         return {"coin": coin_symbol, "whales": whales}
-    
+
     except Exception as e:
         logger.error(f"Top whales error: {e}")
         raise HTTPException(

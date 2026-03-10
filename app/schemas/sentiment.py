@@ -9,7 +9,7 @@ class SentimentAnalysisRequest(BaseModel):
     text: str = Field(..., min_length=1, max_length=5000, description="Text to analyze")
     coin_symbol: Optional[str] = Field(None, description="Related cryptocurrency symbol")
     source: Optional[str] = Field(None, description="Source: twitter, reddit, news, telegram")
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -31,7 +31,7 @@ class SentimentAnalysisResponse(BaseModel):
     entities: List[str] = Field(default_factory=list)
     topics: List[str] = Field(default_factory=list)
     timestamp: datetime = Field(default_factory=datetime.utcnow)
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -56,7 +56,7 @@ class SentimentTrendRequest(BaseModel):
         default=None,
         description="Sources to include: twitter, reddit, news, telegram"
     )
-    
+
     class Config:
         json_schema_extra = {
             "example": {

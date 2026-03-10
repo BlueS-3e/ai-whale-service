@@ -23,7 +23,7 @@ async def analyze_sentiment(
 ):
     """
     Analyze sentiment of text (tweet, article, comment).
-    
+
     Returns:
     - Sentiment score (-1 to 1: negative to positive)
     - Confidence level
@@ -32,9 +32,9 @@ async def analyze_sentiment(
     try:
         logger.info(f"Sentiment analysis request for: {request.coin_symbol}")
         result = await service.analyze(request.text, request.coin_symbol)
-        
+
         return result
-    
+
     except Exception as e:
         logger.error(f"Sentiment analysis error: {e}")
         raise HTTPException(
@@ -51,13 +51,13 @@ async def get_sentiment_trend(
 ):
     """
     Get sentiment trend for a coin over time period.
-    
+
     Aggregates social media sentiment from:
     - Twitter
     - Reddit
     - News articles
     - Telegram (if enabled)
-    
+
     Returns time-series sentiment data.
     """
     try:
@@ -67,9 +67,9 @@ async def get_sentiment_trend(
             request.time_period,
             request.sources
         )
-        
+
         return trend
-    
+
     except Exception as e:
         logger.error(f"Sentiment trend error: {e}")
         raise HTTPException(
@@ -86,20 +86,20 @@ async def get_coin_sentiment(
 ):
     """
     Get current aggregated sentiment score for a coin.
-    
+
     Returns real-time sentiment snapshot.
     """
     try:
         sentiment = await service.get_current_sentiment(coin_symbol)
-        
+
         if not sentiment:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"No sentiment data available for {coin_symbol}"
             )
-        
+
         return sentiment
-    
+
     except HTTPException:
         raise
     except Exception as e:

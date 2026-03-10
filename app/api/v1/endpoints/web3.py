@@ -38,7 +38,7 @@ class TokenBalanceRequest(BaseModel):
 async def get_wallet_balance(request: WalletBalanceRequest):
     """
     Get native token balance for a wallet address
-    
+
     Supports: ETH, BNB, MATIC, etc. depending on chain
     """
     try:
@@ -46,10 +46,10 @@ async def get_wallet_balance(request: WalletBalanceRequest):
             address=request.address,
             chain=request.chain
         )
-        
+
         if 'error' in balance:
             raise HTTPException(status_code=400, detail=balance['error'])
-        
+
         return balance
     except Exception as e:
         logger.error(f"Error fetching balance: {e}")
@@ -66,10 +66,10 @@ async def get_transaction(request: TransactionRequest):
             tx_hash=request.tx_hash,
             chain=request.chain
         )
-        
+
         if 'error' in tx:
             raise HTTPException(status_code=404, detail=tx['error'])
-        
+
         return tx
     except Exception as e:
         logger.error(f"Error fetching transaction: {e}")
@@ -84,7 +84,7 @@ async def get_whale_activity(
 ):
     """
     Get recent large transactions (whale activity)
-    
+
     Scans recent blocks for transactions above threshold.
     Useful for real-time whale tracking.
     """
@@ -94,7 +94,7 @@ async def get_whale_activity(
             min_value_eth=min_value_eth,
             blocks_back=blocks_back
         )
-        
+
         return {
             "chain": chain,
             "min_value_eth": min_value_eth,
@@ -118,10 +118,10 @@ async def get_token_balance(request: TokenBalanceRequest):
             token_address=request.token_address,
             chain=request.chain
         )
-        
+
         if 'error' in balance:
             raise HTTPException(status_code=400, detail=balance['error'])
-        
+
         return balance
     except Exception as e:
         logger.error(f"Error fetching token balance: {e}")
@@ -136,7 +136,7 @@ async def get_supported_chains():
     try:
         chains = blockchain_rpc.get_supported_chains()
         health = blockchain_rpc.health_check()
-        
+
         return {
             "supported_chains": chains,
             "chain_status": health,
@@ -154,19 +154,19 @@ async def web3_health_check():
     """
     try:
         health = blockchain_rpc.health_check()
-        
+
         # Check if any chains are connected
         connected_chains = [
             chain for chain, status in health.items()
             if status.get('connected', False)
         ]
-        
+
         if not connected_chains:
             raise HTTPException(
                 status_code=503,
                 detail="No blockchain connections available"
             )
-        
+
         return {
             "status": "healthy",
             "connected_chains": connected_chains,

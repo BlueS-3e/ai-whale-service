@@ -10,7 +10,7 @@ router = APIRouter()
 async def health_check():
     """
     Health check endpoint - no authentication required.
-    
+
     Returns service status and basic information.
     """
     return {
@@ -26,7 +26,7 @@ async def health_check():
 async def readiness_check():
     """
     Readiness check - verify external dependencies.
-    
+
     Checks:
     - Database connectivity
     - Redis connectivity
@@ -38,9 +38,9 @@ async def readiness_check():
         "redis": "ok",     # Check Redis connection
         "models": "ok"     # Check models are loaded
     }
-    
+
     all_ok = all(v == "ok" for v in checks.values())
-    
+
     return {
         "ready": all_ok,
         "checks": checks,

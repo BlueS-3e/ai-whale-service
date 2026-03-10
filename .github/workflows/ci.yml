@@ -55,6 +55,7 @@ jobs:
         REDIS_URL: redis://localhost:6379
         MASTER_API_KEY: test_key
         SECRET_KEY: test_secret
+        PYTHONPATH: ${{ github.workspace }}
       run: |
         pytest tests/ -v --cov=app --cov-report=xml
     

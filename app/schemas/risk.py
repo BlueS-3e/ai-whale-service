@@ -9,7 +9,7 @@ class RiskAssessmentRequest(BaseModel):
     coin_symbol: str = Field(..., description="Cryptocurrency symbol")
     chain: Optional[str] = Field(None, description="Blockchain: ethereum, bsc, polygon, etc.")
     contract_address: Optional[str] = Field(None, description="Token contract address")
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -34,18 +34,18 @@ class RiskAssessmentResponse(BaseModel):
     overall_risk_score: int = Field(..., ge=0, le=100, description="0 = low risk, 100 = high risk")
     risk_level: str = Field(..., description="low, medium, high, critical")
     risk_factors: List[RiskFactor]
-    
+
     # Detailed breakdown
     smart_contract_risk: int = Field(..., ge=0, le=100)
     liquidity_risk: int = Field(..., ge=0, le=100)
     volatility_risk: int = Field(..., ge=0, le=100)
     whale_concentration_risk: int = Field(..., ge=0, le=100)
     sentiment_risk: int = Field(..., ge=0, le=100)
-    
+
     recommendations: List[str] = Field(default_factory=list)
     warnings: List[str] = Field(default_factory=list)
     timestamp: datetime = Field(default_factory=datetime.utcnow)
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -89,7 +89,7 @@ class PortfolioHolding(BaseModel):
 class PortfolioRiskRequest(BaseModel):
     """Request schema for portfolio risk assessment."""
     holdings: List[PortfolioHolding] = Field(..., min_length=1)
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -108,13 +108,13 @@ class PortfolioRiskResponse(BaseModel):
     overall_risk_score: int = Field(..., ge=0, le=100)
     risk_level: str
     diversification_score: int = Field(..., ge=0, le=100, description="100 = well diversified")
-    
+
     correlation_matrix: Dict[str, Dict[str, float]] = Field(..., description="Asset correlations")
     risk_by_holding: List[Dict] = Field(..., description="Individual holding risks")
-    
+
     max_drawdown_estimate: float = Field(..., description="Estimated maximum drawdown %")
     value_at_risk_95: float = Field(..., description="95% VaR in USD")
-    
+
     rebalancing_suggestions: List[str] = Field(default_factory=list)
     warnings: List[str] = Field(default_factory=list)
     timestamp: datetime = Field(default_factory=datetime.utcnow)

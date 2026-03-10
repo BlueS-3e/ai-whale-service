@@ -12,13 +12,13 @@ api_key_header = APIKeyHeader(name=settings.API_KEY_HEADER, auto_error=False)
 async def validate_api_key(api_key: Optional[str] = Security(api_key_header)) -> str:
     """
     Validate API key from request header.
-    
+
     Args:
         api_key: API key from header
-        
+
     Returns:
         str: Validated API key
-        
+
     Raises:
         HTTPException: If API key is invalid or missing
     """
@@ -29,18 +29,18 @@ async def validate_api_key(api_key: Optional[str] = Security(api_key_header)) ->
             detail="API key is missing",
             headers={"WWW-Authenticate": "ApiKey"},
         )
-    
+
     # TODO: Implement proper API key validation against database
     # For now, simple comparison with master key
     # In production, query database for valid API keys and check rate limits
-    
+
     if api_key != settings.MASTER_API_KEY:
         logger.warning(f"Invalid API key attempted: {api_key[:8]}...")
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Invalid API key",
         )
-    
+
     logger.debug(f"Valid API key authenticated: {api_key[:8]}...")
     return api_key
 
@@ -48,10 +48,10 @@ async def validate_api_key(api_key: Optional[str] = Security(api_key_header)) ->
 async def check_rate_limit(api_key: str) -> None:
     """
     Check if API key has exceeded rate limit.
-    
+
     Args:
         api_key: Validated API key
-        
+
     Raises:
         HTTPException: If rate limit exceeded
     """
@@ -68,7 +68,7 @@ async def check_rate_limit(api_key: str) -> None:
 async def api_key_auth(api_key: str = Security(validate_api_key)) -> str:
     """
     Dependency to validate API key and check rate limits.
-    
+
     Usage:
         @router.get("/protected")
         async def protected_route(_: str = Depends(api_key_auth)):
