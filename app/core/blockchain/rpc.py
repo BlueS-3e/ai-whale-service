@@ -10,7 +10,6 @@ from typing import Dict, List, Optional, Any
 from web3 import Web3
 # geth_poa_middleware is deprecated in web3 v7+
 # from web3.middleware import geth_poa_middleware
-from datetime import datetime
 import logging
 
 logger = logging.getLogger(__name__)

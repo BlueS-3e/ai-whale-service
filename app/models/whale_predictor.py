@@ -1,6 +1,4 @@
 """Whale movement prediction model."""
-import os
-import joblib
 import numpy as np
 from typing import Dict
 from app.models.base import BaseModel

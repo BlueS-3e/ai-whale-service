@@ -4,7 +4,7 @@ Web3 Authentication Module using Sign-In with Ethereum (SIWE)
 Provides wallet-based authentication for dApp integration.
 """
 
-import os
+
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any
 from siwe import SiweMessage

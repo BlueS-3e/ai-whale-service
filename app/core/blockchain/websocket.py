@@ -10,7 +10,6 @@ import json
 import logging
 from typing import Callable, Dict, Any, List
 from websockets import connect
-from web3 import Web3
 
 logger = logging.getLogger(__name__)
 

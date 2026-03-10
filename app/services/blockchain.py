@@ -1,5 +1,4 @@
 """Blockchain service - on-chain data fetching."""
-import httpx
 from typing import Dict, List, Optional
 from datetime import datetime
 from app.core.config import settings
