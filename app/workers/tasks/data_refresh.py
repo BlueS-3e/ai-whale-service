@@ -1,7 +1,7 @@
 """Background tasks for data refresh."""
 from app.workers.celery_app import app
-from app.services.blockchain import BlockchainService
-from app.services.social import SocialMediaService
+# from app.services.blockchain import BlockchainService  # TODO: Uncomment when implementing
+# from app.services.social import SocialMediaService  # TODO: Uncomment when implementing
 from app.core.logger import get_logger
 from datetime import datetime, timedelta
 
