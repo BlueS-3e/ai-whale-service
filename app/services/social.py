@@ -1,6 +1,6 @@
 """Social media service - fetch and analyze social data."""
 import httpx
-from typing import Dict, List, Optional
+from typing import Dict, List
 from datetime import datetime
 from app.core.config import settings
 from app.core.logger import get_logger

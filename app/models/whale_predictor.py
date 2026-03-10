@@ -2,7 +2,7 @@
 import os
 import joblib
 import numpy as np
-from typing import Dict, List, Optional
+from typing import Dict, List
 from app.models.base import BaseModel
 from app.core.logger import get_logger
 

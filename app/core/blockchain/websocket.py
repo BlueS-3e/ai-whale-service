@@ -8,7 +8,7 @@ Critical for whale tracking and instant alerts.
 import asyncio
 import json
 import logging
-from typing import Callable, Optional, Dict, Any, List
+from typing import Callable, Dict, Any, List
 from websockets import connect
 from web3 import Web3
 

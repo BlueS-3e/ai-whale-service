@@ -19,9 +19,8 @@ def refresh_whale_data(self):
     try:
         logger.info("Starting whale data refresh task")
 
-        blockchain_service = BlockchainService()
-
         # TODO: Implement actual data refresh
+        # blockchain_service = BlockchainService()
         # 1. Query known whale wallets
         # 2. Fetch recent transactions
         # 3. Update database
@@ -113,8 +112,8 @@ def fetch_coin_data(coin_symbol: str):
     try:
         logger.info(f"Fetching coin data: {coin_symbol}")
 
-        blockchain_service = BlockchainService()
-
+        # TODO: Implement actual blockchain queries
+        # blockchain_service = BlockchainService()
         # TODO: Fetch all relevant data
         # - Price history
         # - Volume data

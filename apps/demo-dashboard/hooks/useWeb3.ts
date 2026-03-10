@@ -90,7 +90,7 @@ export function useTokenBalance(tokenAddress: string, walletAddress?: string) {
           address: tokenAddress as `0x${string}`,
           abi: parseAbi(['function balanceOf(address) view returns (uint256)']),
           functionName: 'balanceOf',
-          args: [targetAddress],
+          args: [targetAddress as `0x${string}`],
         });
 
         setBalance(formatEther(data as bigint));

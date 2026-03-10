@@ -1,8 +1,6 @@
 """Background tasks for model retraining."""
 from app.workers.celery_app import app
-from app.core.config import settings
 from app.core.logger import get_logger
-import os
 
 logger = get_logger(__name__)
 
