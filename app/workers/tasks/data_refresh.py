@@ -46,7 +46,7 @@ def update_sentiment_data(self):
     try:
         logger.info("Starting sentiment data update task")
 
-        social_service = SocialMediaService()
+        # social_service = SocialMediaService()  # TODO: Uncomment when implementing sentiment update
 
         # TODO: Implement sentiment update
         # 1. Fetch recent social media posts

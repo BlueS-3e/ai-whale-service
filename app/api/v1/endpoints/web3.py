@@ -5,7 +5,6 @@ Provides blockchain data access via REST API.
 """
 
 from fastapi import APIRouter, HTTPException, Query
-from typing import List
 from pydantic import BaseModel, Field
 from app.core.blockchain.rpc import blockchain_rpc
 import logging
