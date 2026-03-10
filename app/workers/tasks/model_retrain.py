@@ -141,23 +141,23 @@ def retrain_risk_model():
 def evaluate_model_performance():
     """
     Evaluate current model performance on validation set.
-    
+
     Returns:
         Performance metrics
     """
     try:
         logger.info("Evaluating model performance")
-        
+
         # TODO: Run models on validation data
         # Compare predictions to actual outcomes
         # Generate performance report
-        
+
         return {
             "whale_accuracy": 0.85,
             "sentiment_f1": 0.78,
             "risk_mae": 8.5
         }
-        
+
     except Exception as e:
         logger.error(f"Model evaluation failed: {e}")
         raise
