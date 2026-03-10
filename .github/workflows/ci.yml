@@ -1,0 +1,166 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # Test Backend
+  test-backend:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      
+      redis:
+        image: redis:7
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+    
+    - name: Run tests
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+        REDIS_URL: redis://localhost:6379
+        MASTER_API_KEY: test_key
+        SECRET_KEY: test_secret
+      run: |
+        pytest tests/ -v --cov=app --cov-report=xml
+    
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: false
+
+  # Lint Backend
+  lint-backend:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install linting tools
+      run: |
+        pip install flake8 black isort mypy
+    
+    - name: Run linters
+      run: |
+        flake8 app/ --max-line-length=120 --ignore=E501,W503
+        black --check app/
+        isort --check-only app/
+
+  # Build and Test Demo Dashboard
+  test-demo-dashboard:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/demo-dashboard
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: apps/demo-dashboard/package-lock.json
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Lint
+      run: npm run lint
+    
+    - name: Build
+      env:
+        NEXT_PUBLIC_API_URL: http://localhost:8000
+      run: npm run build
+    
+    - name: Check bundle size
+      run: |
+        du -sh .next
+        echo "Build successful!"
+
+  # Build and Test Customer Dashboard
+  test-customer-dashboard:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/customer-dashboard
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: apps/customer-dashboard/package-lock.json
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Lint
+      run: npm run lint
+    
+    - name: Build
+      env:
+        NEXT_PUBLIC_API_URL: http://localhost:8000
+      run: npm run build
+    
+    - name: Check bundle size
+      run: |
+        du -sh .next
+        echo "Build successful!"
+
+  # Deployment notification
+  notify-deployment:
+    needs: [test-backend, lint-backend, test-demo-dashboard, test-customer-dashboard]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Deployment readiness
+      run: |
+        echo "✅ All tests passed!"
+        echo "🚀 Ready for deployment to production"
+        echo "📦 Vercel will auto-deploy frontends"
+        echo "🚂 Railway will auto-deploy backend"

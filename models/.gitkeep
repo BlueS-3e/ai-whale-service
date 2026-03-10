@@ -1,0 +1,6 @@
+# This directory will contain trained AI models
+# Place your model files here:
+# - whale_model.pkl
+# - whale_scaler.pkl
+# - sentiment_model/ (transformer model directory)
+# - risk_model.pkl
