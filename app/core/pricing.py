@@ -86,20 +86,20 @@ ENDPOINT_COSTS = {
     "/api/v1/whale/transactions": 2,  # Historical transactions
     "/api/v1/whale/predict": 10,  # AI prediction (expensive)
     "/api/v1/whale/top": 1,  # Top whales list
-    
+
     # Sentiment endpoints
     "/api/v1/sentiment/analyze": 2,  # ML sentiment analysis
     "/api/v1/sentiment/trending": 1,  # Trending sentiment
     "/api/v1/sentiment/history": 3,  # Historical sentiment data
-    
+
     # Risk endpoints
     "/api/v1/risk/assess": 3,  # Risk scoring
     "/api/v1/risk/portfolio": 5,  # Portfolio risk analysis (complex)
-    
+
     # Blockchain data
     "/api/v1/blockchain/transactions": 2,  # On-chain data
     "/api/v1/blockchain/holders": 1,  # Token holders
-    
+
     # Web3 auth (free)
     "/api/v1/auth/nonce": 0,  # Generate nonce
     "/api/v1/auth/verify": 0,  # Verify signature
@@ -109,22 +109,22 @@ ENDPOINT_COSTS = {
 def get_endpoint_cost(endpoint_path: str) -> int:
     """
     Get cost in units for a specific endpoint.
-    
+
     Args:
         endpoint_path: API endpoint path
-        
+
     Returns:
         Cost in units (defaults to 1 if endpoint not found)
     """
     # Exact match first
     if endpoint_path in ENDPOINT_COSTS:
         return ENDPOINT_COSTS[endpoint_path]
-    
+
     # Try to match by prefix for dynamic routes
     for path_pattern, cost in ENDPOINT_COSTS.items():
         if endpoint_path.startswith(path_pattern.rstrip("/")):
             return cost
-    
+
     # Default cost for unknown endpoints
     return 1
 
@@ -132,10 +132,10 @@ def get_endpoint_cost(endpoint_path: str) -> int:
 def get_tier_config(tier: PricingTier) -> Dict:
     """
     Get configuration for a pricing tier.
-    
+
     Args:
         tier: Pricing tier enum
-        
+
     Returns:
         Tier configuration dictionary
     """
@@ -145,11 +145,11 @@ def get_tier_config(tier: PricingTier) -> Dict:
 def calculate_overage_cost(calls_over_limit: int, tier: PricingTier) -> float:
     """
     Calculate overage cost for calls exceeding monthly quota.
-    
+
     Args:
         calls_over_limit: Number of calls over monthly limit
         tier: User's pricing tier
-        
+
     Returns:
         Overage cost in USD
     """
@@ -160,7 +160,7 @@ def calculate_overage_cost(calls_over_limit: int, tier: PricingTier) -> float:
         PricingTier.GROWTH: 5.0,  # $5 per 1000 calls
         PricingTier.ENTERPRISE: 2.0,  # $2 per 1000 calls
     }
-    
+
     rate = overage_rates.get(tier, 10.0)
     return (calls_over_limit / 1000) * rate
 
@@ -168,10 +168,10 @@ def calculate_overage_cost(calls_over_limit: int, tier: PricingTier) -> float:
 def should_allow_overage(tier: PricingTier) -> bool:
     """
     Check if tier allows overage (demo doesn't, paid tiers do).
-    
+
     Args:
         tier: Pricing tier
-        
+
     Returns:
         True if overage is allowed
     """

@@ -51,36 +51,36 @@ async def validate_api_key(api_key: Optional[str] = Security(api_key_header)) ->
 async def check_rate_limit(api_key: str, tier: PricingTier = PricingTier.DEMO) -> None:
     """
     Check if API key has exceeded rate limit using Redis.
-    
+
     Implements sliding window rate limiting:
     - Per-minute limit (short burst protection)
     - Per-day limit (quota management)
-    
+
     Args:
         api_key: Validated API key
         tier: User's pricing tier
-        
+
     Raises:
         HTTPException: If rate limit exceeded
     """
     try:
         redis = await get_redis()
         tier_config = get_tier_config(tier)
-        
+
         # Get rate limits from tier
         limit_per_minute = tier_config["rate_limit_per_minute"]
         limit_per_day = tier_config["rate_limit_per_day"]
-        
+
         now = datetime.utcnow()
-        
+
         # Check per-minute limit (sliding window)
         minute_key = f"rate_limit:minute:{api_key}:{now.strftime('%Y%m%d%H%M')}"
         minute_count = await redis.incr(minute_key)
-        
+
         if minute_count == 1:
             # First request in this minute, set expiry
             await redis.expire(minute_key, 60)
-        
+
         if minute_count > limit_per_minute:
             logger.warning(f"Rate limit exceeded (per-minute): {api_key[:8]}... - {minute_count}/{limit_per_minute}")
             raise HTTPException(
@@ -93,15 +93,15 @@ async def check_rate_limit(api_key: str, tier: PricingTier = PricingTier.DEMO) -
                     "Retry-After": "60",
                 },
             )
-        
+
         # Check per-day limit
         day_key = f"rate_limit:day:{api_key}:{now.strftime('%Y%m%d')}"
         day_count = await redis.incr(day_key)
-        
+
         if day_count == 1:
             # First request today, set expiry for 24 hours
             await redis.expire(day_key, 86400)
-        
+
         if day_count > limit_per_day:
             logger.warning(f"Rate limit exceeded (per-day): {api_key[:8]}... - {day_count}/{limit_per_day}")
             raise HTTPException(
@@ -120,7 +120,7 @@ async def check_rate_limit(api_key: str, tier: PricingTier = PricingTier.DEMO) -
             f"{minute_count}/{limit_per_minute} per min, "
             f"{day_count}/{limit_per_day} per day"
         )
-        
+
     except HTTPException:
         # Re-raise HTTP exceptions
         raise
@@ -133,11 +133,11 @@ async def check_rate_limit(api_key: str, tier: PricingTier = PricingTier.DEMO) -
 async def get_rate_limit_info(api_key: str, tier: PricingTier = PricingTier.DEMO) -> dict:
     """
     Get current rate limit status for an API key.
-    
+
     Args:
         api_key: API key to check
         tier: User's pricing tier
-        
+
     Returns:
         Dictionary with rate limit information
     """
@@ -145,17 +145,17 @@ async def get_rate_limit_info(api_key: str, tier: PricingTier = PricingTier.DEMO
         redis = await get_redis()
         tier_config = get_tier_config(tier)
         now = datetime.utcnow()
-        
+
         # Get counts
         minute_key = f"rate_limit:minute:{api_key}:{now.strftime('%Y%m%d%H%M')}"
         day_key = f"rate_limit:day:{api_key}:{now.strftime('%Y%m%d')}"
-        
+
         minute_count = int(await redis.get(minute_key) or 0)
         day_count = int(await redis.get(day_key) or 0)
-        
+
         limit_per_minute = tier_config["rate_limit_per_minute"]
         limit_per_day = tier_config["rate_limit_per_day"]
-        
+
         return {
             "tier": tier.value,
             "limits": {

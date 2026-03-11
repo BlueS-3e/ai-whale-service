@@ -72,7 +72,7 @@ class PricingResponse(BaseModel):
 async def get_pricing():
     """
     Get pricing tiers and payment methods.
-    
+
     Returns all available pricing tiers with features and costs.
     """
     return {
@@ -86,17 +86,17 @@ async def get_pricing():
 async def create_checkout_session(request: CheckoutRequest):
     """
     Create a payment checkout session.
-    
+
     Creates a checkout session with the selected payment provider
     (Stripe, INXY, PayRam, or Binance Pay).
-    
+
     **Payment Methods:**
     - `stripe_card`: Credit/debit cards, Apple Pay, Google Pay
     - `stripe_crypto`: Crypto via Crypto.com (USDC, USDT)
     - `inxy`: Native crypto via INXY Paygate
     - `payram`: Native crypto via PayRam (self-hosted)
     - `binance_pay`: Binance Pay (45M+ users)
-    
+
     **Crypto Benefits:**
     - 10% discount on annual plans
     - No chargebacks
@@ -107,7 +107,7 @@ async def create_checkout_session(request: CheckoutRequest):
         # Default URLs if not provided
         success_url = request.success_url or "https://dashboard.yourapp.com/success"
         cancel_url = request.cancel_url or "https://dashboard.yourapp.com/pricing"
-        
+
         session = await payment_service.create_checkout_session(
             user_email=request.email,
             tier=request.tier,
@@ -116,9 +116,9 @@ async def create_checkout_session(request: CheckoutRequest):
             success_url=success_url,
             cancel_url=cancel_url,
         )
-        
+
         return session
-        
+
     except Exception as e:
         logger.error(f"Checkout session creation failed: {e}")
         raise HTTPException(
@@ -134,14 +134,14 @@ async def verify_payment(
 ):
     """
     Verify payment status.
-    
+
     Check if a payment has been completed successfully.
     Used after redirect from payment provider.
     """
     try:
         result = await payment_service.verify_payment(payment_id, payment_method)
         return result
-        
+
     except Exception as e:
         logger.error(f"Payment verification failed: {e}")
         raise HTTPException(
@@ -157,7 +157,7 @@ async def stripe_webhook(
 ):
     """
     Handle Stripe webhook events.
-    
+
     Processes payment and subscription events from Stripe:
     - checkout.session.completed
     - payment_intent.succeeded
@@ -166,15 +166,15 @@ async def stripe_webhook(
     """
     try:
         payload = await request.json()
-        
+
         result = await payment_service.handle_webhook(
             provider="stripe",
             payload=payload,
             signature=stripe_signature,
         )
-        
+
         return result
-        
+
     except Exception as e:
         logger.error(f"Stripe webhook processing failed: {e}")
         raise HTTPException(
@@ -190,20 +190,20 @@ async def inxy_webhook(
 ):
     """
     Handle INXY Paygate webhook events.
-    
+
     Processes crypto payment events from INXY.
     """
     try:
         payload = await request.json()
-        
+
         result = await payment_service.handle_webhook(
             provider="inxy",
             payload=payload,
             signature=inxy_signature,
         )
-        
+
         return result
-        
+
     except Exception as e:
         logger.error(f"INXY webhook processing failed: {e}")
         raise HTTPException(
@@ -216,19 +216,19 @@ async def inxy_webhook(
 async def payram_webhook(request: Request):
     """
     Handle PayRam webhook events.
-    
+
     Processes self-hosted crypto payment events.
     """
     try:
         payload = await request.json()
-        
+
         result = await payment_service.handle_webhook(
             provider="payram",
             payload=payload,
         )
-        
+
         return result
-        
+
     except Exception as e:
         logger.error(f"PayRam webhook processing failed: {e}")
         raise HTTPException(
@@ -244,20 +244,20 @@ async def binance_webhook(
 ):
     """
     Handle Binance Pay webhook events.
-    
+
     Processes payment events from Binance Pay network.
     """
     try:
         payload = await request.json()
-        
+
         result = await payment_service.handle_webhook(
             provider="binance",
             payload=payload,
             signature=binance_pay_signature,
         )
-        
+
         return result
-        
+
     except Exception as e:
         logger.error(f"Binance webhook processing failed: {e}")
         raise HTTPException(
@@ -270,14 +270,14 @@ async def binance_webhook(
 async def get_tier_details(tier_name: str):
     """
     Get details for a specific pricing tier.
-    
+
     Returns features, limits, and pricing for a tier.
     """
     try:
         tier = PricingTier(tier_name)
         config = get_tier_config(tier)
         return config
-        
+
     except ValueError:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
