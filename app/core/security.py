@@ -115,7 +115,6 @@ async def check_rate_limit(api_key: str, tier: PricingTier = PricingTier.DEMO) -
             )
 
         # Log successful rate limit check
-        remaining_day = limit_per_day - day_count
         logger.debug(
             f"Rate limit OK: {api_key[:8]}... - "
             f"{minute_count}/{limit_per_minute} per min, "
