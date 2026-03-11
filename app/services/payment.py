@@ -45,13 +45,13 @@ class SubscriptionStatus(str, Enum):
 class PaymentService:
     """
     Service for processing payments via Stripe and crypto.
-    
+
     Supports:
     - Stripe (cards, Apple Pay, Google Pay)
     - Stripe Crypto (via Crypto.com integration)
     - Native crypto (INXY, PayRam, Binance Pay)
     """
-    
+
     def __init__(self):
         """Initialize payment service."""
         # TODO: Initialize payment provider clients
@@ -60,7 +60,7 @@ class PaymentService:
         # - PayRam SDK
         # - Binance Pay SDK
         pass
-    
+
     async def create_checkout_session(
         self,
         user_email: str,
@@ -72,7 +72,7 @@ class PaymentService:
     ) -> Dict:
         """
         Create a payment checkout session.
-        
+
         Args:
             user_email: Customer email
             tier: Pricing tier to subscribe to
@@ -80,27 +80,27 @@ class PaymentService:
             payment_method: Payment method to use
             success_url: URL to redirect after successful payment
             cancel_url: URL to redirect if payment is cancelled
-            
+
         Returns:
             Checkout session details with payment URL
         """
         try:
             tier_config = get_tier_config(tier)
-            
+
             # Calculate amount
             if billing_period == "yearly":
                 amount_key = "yearly_price"
             else:
                 amount_key = "monthly_price"
-            
+
             amount_usd = tier_config.get(amount_key, tier_config["monthly_price"])
-            
+
             # Apply crypto discount for yearly plans
             if billing_period == "yearly" and payment_method != PaymentMethod.STRIPE_CARD:
                 discount_amount = amount_usd * CRYPTO_ANNUAL_DISCOUNT
                 amount_usd = amount_usd - discount_amount
                 logger.info(f"Applied {CRYPTO_ANNUAL_DISCOUNT*100}% crypto discount: ${discount_amount:.2f}")
-            
+
             # Route to appropriate payment processor
             if payment_method == PaymentMethod.STRIPE_CARD:
                 return await self._create_stripe_session(
@@ -124,11 +124,11 @@ class PaymentService:
                 return await self._create_binance_payment(
                     user_email, tier, billing_period, amount_usd
                 )
-            
+
         except Exception as e:
             logger.error(f"Failed to create checkout session: {e}")
             raise
-    
+
     async def _create_stripe_session(
         self,
         user_email: str,
@@ -168,10 +168,10 @@ class PaymentService:
             #         'billing_period': billing_period,
             #     }
             # )
-            
+
             # Mock response for now
             session_id = f"cs_test_{secrets.token_urlsafe(32)}"
-            
+
             return {
                 "session_id": session_id,
                 "payment_url": f"https://checkout.stripe.com/pay/{session_id}",
@@ -182,11 +182,11 @@ class PaymentService:
                 "payment_method": PaymentMethod.STRIPE_CARD.value,
                 "expires_at": (datetime.utcnow() + timedelta(hours=24)).isoformat(),
             }
-            
+
         except Exception as e:
             logger.error(f"Stripe session creation failed: {e}")
             raise
-    
+
     async def _create_stripe_crypto_session(
         self,
         user_email: str,
@@ -204,9 +204,9 @@ class PaymentService:
             #     payment_method_types=['card', 'crypto'],  # Enable crypto via Crypto.com
             #     ...
             # )
-            
+
             session_id = f"cs_crypto_{secrets.token_urlsafe(32)}"
-            
+
             return {
                 "session_id": session_id,
                 "payment_url": f"https://checkout.stripe.com/pay/{session_id}",
@@ -219,11 +219,11 @@ class PaymentService:
                 "payment_method": PaymentMethod.STRIPE_CRYPTO.value,
                 "expires_at": (datetime.utcnow() + timedelta(hours=24)).isoformat(),
             }
-            
+
         except Exception as e:
             logger.error(f"Stripe crypto session creation failed: {e}")
             raise
-    
+
     async def _create_inxy_payment(
         self,
         user_email: str,
@@ -246,9 +246,9 @@ class PaymentService:
             #   "auto_convert": true,  # Convert crypto to fiat
             #   "accepted_tokens": ["USDC", "USDT", "ETH"]
             # }
-            
+
             payment_id = f"inxy_{secrets.token_urlsafe(24)}"
-            
+
             return {
                 "payment_id": payment_id,
                 "payment_url": f"https://paygate.inxy.com/pay/{payment_id}",
@@ -260,11 +260,11 @@ class PaymentService:
                 "payment_method": PaymentMethod.INXY.value,
                 "expires_at": (datetime.utcnow() + timedelta(hours=2)).isoformat(),
             }
-            
+
         except Exception as e:
             logger.error(f"INXY payment creation failed: {e}")
             raise
-    
+
     async def _create_payram_payment(
         self,
         user_email: str,
@@ -277,9 +277,9 @@ class PaymentService:
             # TODO: Implement PayRam integration
             # PayRam is self-hosted, so we control the URLs
             # No KYC required for customers
-            
+
             payment_id = f"payram_{secrets.token_urlsafe(24)}"
-            
+
             return {
                 "payment_id": payment_id,
                 "payment_url": f"https://payments.yourapp.com/crypto/{payment_id}",
@@ -292,11 +292,11 @@ class PaymentService:
                 "no_kyc": True,
                 "expires_at": (datetime.utcnow() + timedelta(hours=2)).isoformat(),
             }
-            
+
         except Exception as e:
             logger.error(f"PayRam payment creation failed: {e}")
             raise
-    
+
     async def _create_binance_payment(
         self,
         user_email: str,
@@ -330,9 +330,9 @@ class PaymentService:
             #   "returnUrl": success_url,
             #   "cancelUrl": cancel_url
             # }
-            
+
             payment_id = f"bnpay_{secrets.token_urlsafe(24)}"
-            
+
             return {
                 "payment_id": payment_id,
                 "payment_url": f"https://pay.binance.com/checkout/{payment_id}",
@@ -344,11 +344,11 @@ class PaymentService:
                 "merchant_network": "45M+ users",
                 "expires_at": (datetime.utcnow() + timedelta(hours=1)).isoformat(),
             }
-            
+
         except Exception as e:
             logger.error(f"Binance Pay payment creation failed: {e}")
             raise
-    
+
     async def verify_payment(
         self,
         payment_id: str,
@@ -356,11 +356,11 @@ class PaymentService:
     ) -> Dict:
         """
         Verify payment status.
-        
+
         Args:
             payment_id: Payment/session ID
             payment_method: Payment method used
-            
+
         Returns:
             Payment verification details
         """
@@ -370,7 +370,7 @@ class PaymentService:
             # - INXY: GET /api/v1/payments/{payment_id}
             # - PayRam: Query local database
             # - Binance Pay: GET /binancepay/openapi/v2/order/query
-            
+
             # Mock response
             return {
                 "payment_id": payment_id,
@@ -379,7 +379,7 @@ class PaymentService:
                 "currency": "USD",
                 "paid_at": datetime.utcnow().isoformat(),
             }
-            
+
         except Exception as e:
             logger.error(f"Payment verification failed: {e}")
             return {
@@ -387,7 +387,7 @@ class PaymentService:
                 "status": PaymentStatus.FAILED.value,
                 "error": str(e),
             }
-    
+
     async def handle_webhook(
         self,
         provider: str,
@@ -396,18 +396,18 @@ class PaymentService:
     ) -> Dict:
         """
         Handle webhook from payment provider.
-        
+
         Args:
             provider: Payment provider (stripe, inxy, payram, binance)
             payload: Webhook payload
             signature: Webhook signature for verification
-            
+
         Returns:
             Processed webhook result
         """
         try:
             logger.info(f"Processing webhook from {provider}")
-            
+
             # Verify signature
             if provider == "stripe":
                 # TODO: Verify Stripe signature
@@ -419,23 +419,23 @@ class PaymentService:
             elif provider == "binance":
                 # TODO: Verify Binance Pay signature
                 pass
-            
+
             # Process event
             event_type = payload.get("type") or payload.get("event")
-            
+
             if event_type in ["payment.succeeded", "checkout.session.completed"]:
                 return await self._handle_payment_success(payload)
             elif event_type in ["payment.failed", "checkout.session.expired"]:
                 return await self._handle_payment_failure(payload)
             elif event_type in ["subscription.updated", "subscription.canceled"]:
                 return await self._handle_subscription_update(payload)
-            
+
             return {"status": "processed", "event_type": event_type}
-            
+
         except Exception as e:
             logger.error(f"Webhook processing failed: {e}")
             raise
-    
+
     async def _handle_payment_success(self, payload: Dict) -> Dict:
         """Handle successful payment webhook."""
         try:
@@ -446,32 +446,32 @@ class PaymentService:
             # - Create/upgrade subscription in database
             # - Generate API key
             # - Send welcome email
-            
+
             logger.info(f"Payment succeeded: {payload}")
             return {"status": "success"}
-            
+
         except Exception as e:
             logger.error(f"Payment success handling failed: {e}")
             raise
-    
+
     async def _handle_payment_failure(self, payload: Dict) -> Dict:
         """Handle failed payment webhook."""
         try:
             logger.warning(f"Payment failed: {payload}")
             # TODO: Update subscription status, send notification
             return {"status": "failed"}
-            
+
         except Exception as e:
             logger.error(f"Payment failure handling failed: {e}")
             raise
-    
+
     async def _handle_subscription_update(self, payload: Dict) -> Dict:
         """Handle subscription update webhook."""
         try:
             logger.info(f"Subscription updated: {payload}")
             # TODO: Update subscription details in database
             return {"status": "updated"}
-            
+
         except Exception as e:
             logger.error(f"Subscription update handling failed: {e}")
             raise

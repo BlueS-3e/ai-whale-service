@@ -8,7 +8,7 @@ from fastapi import APIRouter, HTTPException, Request, Header, status
 from typing import Optional, Literal
 from pydantic import BaseModel, EmailStr, Field
 from app.services.payment import payment_service, PaymentMethod
-from app.core.pricing import PricingTier,get_tier_config, PRICING_TIERS
+from app.core.pricing import PricingTier, get_tier_config, PRICING_TIERS
 from app.core.logger import logger
 
 router = APIRouter()
