@@ -15,9 +15,11 @@ export default function SuccessPage() {
   const [verifying, setVerifying] = useState(true);
   const [paymentInfo, setPaymentInfo] = useState<{
     tier: string;
-    amount: number;
+    amount_paid: number;
     currency: string;
     billing_cycle: string;
+    payment_method?: string;
+    paid_at?: string;
     api_key?: string;
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
