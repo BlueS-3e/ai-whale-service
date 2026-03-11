@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Activity, MessageSquare, TrendingUp, TrendingDown, Minus, Menu, X, AlertCircle } from "lucide-react";
+import { Activity, MessageSquare, TrendingUp, TrendingDown, Minus, Menu, X, AlertCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { sentimentApi } from "@/lib/api-client";
@@ -16,9 +16,19 @@ interface SentimentAnalysis {
   entities?: string[];
 }
 
+// Example sentiment texts for demo
+const EXAMPLE_TEXTS = [
+  { coin: "BTC", text: "Bitcoin is going to the moon! 🚀 This is the next bull run! Strong buy signal!", label: "😊 Bullish Example" },
+  { coin: "ETH", text: "Ethereum upgrade looks promising. Strong fundamentals and adoption growing.", label: "😊 Positive ETH" },
+  { coin: "DOGE", text: "Dogecoin is crashing hard! Sell everything before it's too late! 📉", label: "😰 Bearish Example" },
+  { coin: "BTC", text: "Bitcoin price moving sideways. Waiting for clear direction before entry.", label: "😐 Neutral Example" },
+  { coin: "SOL", text: "Solana network congestion issues again. Performance concerns affecting price.", label: "😰 Bearish SOL" },
+  { coin: "SHIB", text: "SHIB community is amazing! To the moon! Best investment ever! 🔥🚀", label: "😊 Bullish SHIB" },
+];
+
 export default function SentimentPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [text, setText] = useState("Bitcoin is going to the moon! 🚀 This is the next bull run!");
+  const [text, setText] = useState(EXAMPLE_TEXTS[0].text);
   const [coinSymbol, setCoinSymbol] = useState("BTC");
   const [loading, setLoading] = useState(false);
   const [sentiment, setSentiment] = useState<SentimentAnalysis | null>(null);
@@ -73,15 +83,19 @@ export default function SentimentPage() {
           </Link>
           <nav className="hidden md:flex gap-4 items-center">
             <Link href="/whale">
-              <Button variant="ghost">Whale Tracker</Button>
+              <Button variant="ghost" className="hover:bg-gray-100 dark:hover:bg-gray-800">Whale Tracker</Button>
             </Link>
             <Link href="/sentiment">
-              <Button variant="default">Sentiment</Button>
+              <Button variant="ghost" className="relative font-semibold bg-purple-50 dark:bg-purple-950/30 hover:bg-purple-100 dark:hover:bg-purple-900/40 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-purple-600 after:to-pink-600" aria-current="page">
+                Sentiment
+              </Button>
             </Link>
             <Link href="/risk">
-              <Button variant="ghost">Risk Assessment</Button>
+              <Button variant="ghost" className="hover:bg-gray-100 dark:hover:bg-gray-800">Risk Assessment</Button>
             </Link>
-            <Button>Get API Access</Button>
+            <Link href="http://localhost:3001/pricing" target="_blank" rel="noopener noreferrer">
+              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">Get API Access ✨</Button>
+            </Link>
             <ThemeToggle />
           </nav>
           {/* Mobile menu button */}
@@ -102,43 +116,80 @@ export default function SentimentPage() {
       {/* Mobile slide-out menu */}
       {mobileMenuOpen && (
         <>
+          {/* Animated backdrop with blur */}
           <div 
-            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            className="fixed inset-0 bg-gradient-to-br from-black/70 via-purple-900/40 to-pink-900/40 backdrop-blur-md z-40 md:hidden animate-in fade-in duration-300"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-900 shadow-2xl z-50 md:hidden backdrop-blur-xl">
-            <div className="p-6 space-y-4">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="font-semibold text-lg">Menu</h3>
-                <Button 
-                  size="sm" 
-                  variant="ghost"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <X className="h-5 w-5" />
-                </Button>
+          {/* Slide-out panel with glassmorphism */}
+          <div className="fixed top-0 right-0 h-full w-80 bg-gradient-to-br from-white via-purple-50/50 to-pink-50/30 dark:from-gray-900 dark:via-purple-950/50 dark:to-pink-950/30 shadow-2xl z-50 md:hidden backdrop-blur-3xl border-l border-purple-500/30 animate-in slide-in-from-right duration-300">
+            <div className="flex flex-col h-full">
+              {/* Header with gradient accent */}
+              <div className="p-6 pb-4 border-b border-purple-500/20 backdrop-blur-xl bg-gradient-to-r from-purple-600/5 to-pink-600/5">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h3 className="font-bold text-xl bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">Menu</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Navigate your experience</p>
+                  </div>
+                  <Button 
+                    size="sm" 
+                    variant="ghost"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="hover:bg-purple-100 dark:hover:bg-purple-900/50 hover:rotate-90 transition-all duration-300 rounded-full h-10 w-10 p-0"
+                  >
+                    <X className="h-5 w-5" />
+                  </Button>
+                </div>
               </div>
-              <Link href="/whale" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start min-h-[44px]">
-                  <TrendingUp className="h-4 w-4 mr-2" />
-                  Whale Tracker
-                </Button>
-              </Link>
-              <Link href="/sentiment" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="default" className="w-full justify-start min-h-[44px]">
-                  <MessageSquare className="h-4 w-4 mr-2" />
-                  Sentiment
-                </Button>
-              </Link>
-              <Link href="/risk" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start min-h-[44px]">
-                  <AlertCircle className="h-4 w-4 mr-2" />
-                  Risk Assessment
-                </Button>
-              </Link>
-              <Button className="w-full min-h-[44px]" onClick={() => setMobileMenuOpen(false)}>
-                Get API Access
-              </Button>
+              
+              {/* Menu items with staggered animation */}
+              <div className="flex-1 overflow-y-auto p-6 space-y-2">
+                <Link href="/whale" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-blue-100 hover:to-cyan-100 dark:hover:from-blue-900/30 dark:hover:to-cyan-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                    <TrendingUp className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">Whale Tracker</span>
+                  </Button>
+                </Link>
+                
+                <Link href="/sentiment" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="default" className="w-full justify-start min-h-[52px] bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-purple-500/50 rounded-xl relative overflow-hidden group" aria-current="page">
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                    <MessageSquare className="h-5 w-5 mr-3 relative z-10" />
+                    <span className="relative z-10">Sentiment</span>
+                  </Button>
+                </Link>
+                
+                <Link href="/risk" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-orange-100 hover:to-red-100 dark:hover:from-orange-900/30 dark:hover:to-red-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                    <AlertCircle className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">Risk Assessment</span>
+                  </Button>
+                </Link>
+                
+                {/* Divider with gradient */}
+                <div className="my-6 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
+                
+                {/* CTA Button with special effects */}
+                <Link href="http://localhost:3001/pricing" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>
+                  <Button className="w-full min-h-[56px] bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white font-bold shadow-xl hover:shadow-2xl hover:shadow-purple-500/50 hover:scale-[1.02] transition-all duration-300 rounded-xl relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                    <span className="mr-2 text-xl relative z-10">✨</span>
+                    <span className="relative z-10 font-extrabold">Get API Access</span>
+                    <span className="ml-2 relative z-10 group-hover:translate-x-1 transition-transform duration-300">→</span>
+                  </Button>
+                </Link>
+              </div>
+              
+              {/* Footer branding */}
+              <div className="p-6 pt-4 border-t border-purple-500/20 backdrop-blur-xl bg-gradient-to-r from-purple-600/5 to-pink-600/5">
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1">
+                    <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                    Live Demo
+                  </span>
+                  <span className="font-mono">v1.0</span>
+                </div>
+              </div>
             </div>
           </div>
         </>
@@ -156,10 +207,46 @@ export default function SentimentPage() {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8 mb-12">
+            {/* Quick Start Examples */}
+            <Card className="border-2 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 backdrop-blur-xl">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <MessageSquare className="h-5 w-5 text-purple-600" />
+                  💬 Quick Start Examples
+                </CardTitle>
+                <CardDescription>Click any text to analyze instantly</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {EXAMPLE_TEXTS.map((example, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setText(example.text);
+                      setCoinSymbol(example.coin);
+                      setSentiment(null);
+                    }}
+                    className="w-full p-3 text-left rounded-lg border-2 hover:border-purple-500 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all duration-200 hover:scale-[1.02] group"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1">
+                        <div className="font-semibold text-sm group-hover:text-purple-600 dark:group-hover:text-purple-400 mb-1">
+                          {example.coin} - {example.label}
+                        </div>
+                        <div className="text-xs text-muted-foreground line-clamp-2">
+                          {example.text}
+                        </div>
+                      </div>
+                      <ArrowRight className="h-4 w-4 text-purple-600 group-hover:translate-x-1 transition-transform flex-shrink-0 mt-1" />
+                    </div>
+                  </button>
+                ))}
+              </CardContent>
+            </Card>
+
             <Card className="border-2 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl">
               <CardHeader>
                 <CardTitle>Analyze Text</CardTitle>
-                <CardDescription>Enter text or let us scan social media</CardDescription>
+                <CardDescription>Or enter your own text to analyze</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
@@ -167,7 +254,7 @@ export default function SentimentPage() {
                   <textarea
                     value={text}
                     onChange={(e) => setText(e.target.value)}
-                    className="w-full px-4 py-3 border rounded-lg text-sm resize-none dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                    className="w-full px-4 py-3 border rounded-lg text-sm resize-none dark:bg-gray-800 dark:border-gray-700 dark:text-white focus:ring-2 focus:ring-purple-500 transition-all"
                     rows={6}
                     placeholder="Enter text from Twitter, Reddit, news articles..."
                   />
@@ -177,17 +264,18 @@ export default function SentimentPage() {
                   <select
                     value={coinSymbol}
                     onChange={(e) => setCoinSymbol(e.target.value)}
-                    className="w-full px-4 py-3 border rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                    className="w-full px-4 py-3 border rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-white focus:ring-2 focus:ring-purple-500 transition-all"
                   >
-                    <option value="BTC">Bitcoin (BTC)</option>
-                    <option value="ETH">Ethereum (ETH)</option>
-                    <option value="DOGE">Dogecoin (DOGE)</option>
-                    <option value="SHIB">Shiba Inu (SHIB)</option>
-                    <option value="PEPE">Pepe (PEPE)</option>
+                    <option value="BTC">🟠 Bitcoin (BTC)</option>
+                    <option value="ETH">🔷 Ethereum (ETH)</option>
+                    <option value="SOL">🌅 Solana (SOL)</option>
+                    <option value="DOGE">🐕 Dogecoin (DOGE)</option>
+                    <option value="SHIB">🐶 Shiba Inu (SHIB)</option>
+                    <option value="PEPE">🐸 Pepe (PEPE)</option>
                   </select>
                 </div>
-                <Button onClick={analyzeText} disabled={loading} className="w-full" size="lg">
-                  {loading ? "Analyzing..." : "Analyze Sentiment"}
+                <Button onClick={analyzeText} disabled={loading} className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold shadow-lg hover:shadow-purple-500/50 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" size="lg">
+                  {loading ? "Analyzing..." : "💭 Analyze Sentiment"}
                   <MessageSquare className="h-4 w-4 ml-2" />
                 </Button>
               </CardContent>

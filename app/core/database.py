@@ -44,13 +44,5 @@ def get_db() -> Generator[Session, None, None]:
 def init_db() -> None:
     """Initialize database - create all tables."""
     # Import all models here to register them with Base
-    # from app.models.db import user, api_key, usage_log
+    from app.models.db.user import User, APIKey, Subscription, Payment, UsageLog
     Base.metadata.create_all(bind=engine)
-
-
-# TODO: Add database models in app/models/db/
-# Example models to create:
-# - APIKey: Store API keys for authentication
-# - UsageLog: Track API usage per key
-# - WhaleTransaction: Cache whale transactions
-# - SentimentSnapshot: Store periodic sentiment scores

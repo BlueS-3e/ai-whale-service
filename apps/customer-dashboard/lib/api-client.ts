@@ -86,3 +86,35 @@ export const healthApi = {
     return response.data;
   },
 };
+
+// Payment API
+export const paymentApi = {
+  getPricing: async () => {
+    const response = await apiClient.get('/v1/payment/pricing');
+    return response.data;
+  },
+  
+  checkout: async (data: {
+    email: string;
+    tier: string;
+    billing_period: 'monthly' | 'yearly';
+    payment_method: string;
+    success_url?: string;
+    cancel_url?: string;
+  }) => {
+    const response = await apiClient.post('/v1/payment/checkout', data);
+    return response.data;
+  },
+  
+  verifyPayment: async (paymentId: string, paymentMethod: string) => {
+    const response = await apiClient.get(`/v1/payment/verify/${paymentId}`, {
+      params: { payment_method: paymentMethod },
+    });
+    return response.data;
+  },
+  
+  getTierDetails: async (tierName: string) => {
+    const response = await apiClient.get(`/v1/payment/tier/${tierName}`);
+    return response.data;
+  },
+};

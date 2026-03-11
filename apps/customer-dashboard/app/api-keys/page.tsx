@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Key, Copy, Trash2, Plus, Activity, Menu, X, BarChart3, Play, FileText } from "lucide-react";
+import { Key, Copy, Trash2, Plus, Activity, Menu, X, BarChart3, Play, FileText, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -79,6 +79,9 @@ export default function APIKeysPage() {
             <Link href="/playground">
               <Button variant="ghost">Playground</Button>
             </Link>
+            <Link href="/pricing">
+              <Button variant="ghost">Pricing</Button>
+            </Link>
             <Link href="/docs">
               <Button variant="ghost">Docs</Button>
             </Link>
@@ -102,46 +105,81 @@ export default function APIKeysPage() {
       {/* Mobile slide-out menu */}
       {mobileMenuOpen && (
         <>
+          {/* Animated backdrop with blur */}
           <div 
-            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            className="fixed inset-0 bg-gradient-to-br from-black/70 via-blue-900/40 to-purple-900/40 backdrop-blur-md z-40 md:hidden animate-in fade-in duration-300"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-900 shadow-2xl z-50 md:hidden backdrop-blur-xl">
-            <div className="p-6 space-y-4">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="font-semibold text-lg">Menu</h3>
-                <Button 
-                  size="sm" 
-                  variant="ghost"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <X className="h-5 w-5" />
-                </Button>
+          {/* Slide-out panel with glassmorphism */}
+          <div className="fixed top-0 right-0 h-full w-80 bg-gradient-to-br from-white via-blue-50/50 to-purple-50/30 dark:from-gray-900 dark:via-blue-950/50 dark:to-purple-950/30 shadow-2xl z-50 md:hidden backdrop-blur-3xl border-l border-blue-500/30 animate-in slide-in-from-right duration-300">
+            <div className="flex flex-col h-full">
+              {/* Header with gradient accent */}
+              <div className="p-6 pb-4 border-b border-blue-500/20 backdrop-blur-xl bg-gradient-to-r from-blue-600/5 to-purple-600/5">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h3 className="font-bold text-xl bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">Dashboard</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Manage your API</p>
+                  </div>
+                  <Button 
+                    size="sm" 
+                    variant="ghost"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="hover:bg-blue-100 dark:hover:bg-blue-900/50 hover:rotate-90 transition-all duration-300 rounded-full h-10 w-10 p-0"
+                  >
+                    <X className="h-5 w-5" />
+                  </Button>
+                </div>
               </div>
-              <Link href="/api-keys" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="default" className="w-full justify-start min-h-[44px]">
-                  <Key className="h-4 w-4 mr-2" />
-                  API Keys
-                </Button>
-              </Link>
-              <Link href="/usage" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start min-h-[44px]">
-                  <BarChart3 className="h-4 w-4 mr-2" />
-                  Usage
-                </Button>
-              </Link>
-              <Link href="/playground" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start min-h-[44px]">
-                  <Play className="h-4 w-4 mr-2" />
-                  Playground
-                </Button>
-              </Link>
-              <Link href="/docs" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start min-h-[44px]">
-                  <FileText className="h-4 w-4 mr-2" />
-                  Documentation
-                </Button>
-              </Link>
+              
+              {/* Menu items with staggered animation */}
+              <div className="flex-1 overflow-y-auto p-6 space-y-2">
+                <Link href="/api-keys" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="default" className="w-full justify-start min-h-[52px] bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-blue-500/50 rounded-xl relative overflow-hidden group" aria-current="page">
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                    <Key className="h-5 w-5 mr-3 relative z-10" />
+                    <span className="relative z-10">API Keys</span>
+                  </Button>
+                </Link>
+                
+                <Link href="/usage" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                    <BarChart3 className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">Usage</span>
+                  </Button>
+                </Link>
+                
+                <Link href="/playground" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                    <Play className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">Playground</span>
+                  </Button>
+                </Link>
+                
+                <Link href="/pricing" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                    <DollarSign className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">Pricing</span>
+                  </Button>
+                </Link>
+                
+                <Link href="/docs" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                    <FileText className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">Documentation</span>
+                  </Button>
+                </Link>
+              </div>
+              
+              {/* Footer branding */}
+              <div className="p-6 pt-4 border-t border-blue-500/20 backdrop-blur-xl bg-gradient-to-r from-blue-600/5 to-purple-600/5">
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1">
+                    <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                    Connected
+                  </span>
+                  <span className="font-mono">v1.0</span>
+                </div>
+              </div>
             </div>
           </div>
         </>

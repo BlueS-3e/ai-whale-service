@@ -17,9 +17,23 @@ interface WhalePrediction {
   estimated_amount?: number;
 }
 
+// Example whale wallets for demo
+const EXAMPLE_WHALES: Record<string, { address: string; label: string }> = {
+  BTC: { address: "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb", label: "Bitcoin Whale #1" },
+  ETH: { address: "0xBE0eB53F46cd790Cd13851d5EFf43D12404d33E8", label: "Binance Hot Wallet" },
+  SOL: { address: "5Q544fKrFoe6tsEbD7S8EmxGTJYAKtTVhAW5Q5pge4j1", label: "Solana Whale" },
+  DOGE: { address: "0x28C6c06298d514Db089934071355E5743bf21d60", label: "Dogecoin Whale" },
+  SHIB: { address: "0x1406899696adb2fa7a95ea68e80d4f9c82fcdedd", label: "SHIB Top Holder" },
+  PEPE: { address: "0x8d3e3a57c5f140b5f9feb0d43d37a347ee01c851", label: "PEPE Whale" },
+  MATIC: { address: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0", label: "Polygon Whale" },
+  LINK: { address: "0x98c63b7b319dfbdf3d811530f2ab9dfe4983af9d", label: "Chainlink Whale" },
+  UNI: { address: "0x1a9c8182c09f50c8318d769245bea52c32be35bc", label: "Uniswap Whale" },
+  AVAX: { address: "0x9f8c163cba728e99993abe7495f06c0a3c8ac8b9", label: "Avalanche Whale" },
+};
+
 export default function WhalePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [walletAddress, setWalletAddress] = useState("0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb");
+  const [walletAddress, setWalletAddress] = useState(EXAMPLE_WHALES.BTC.address);
   const [coinSymbol, setCoinSymbol] = useState("BTC");
   const [loading, setLoading] = useState(false);
   const [prediction, setPrediction] = useState<WhalePrediction | null>(null);
@@ -37,6 +51,24 @@ export default function WhalePage() {
       console.error(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadExampleWallet = () => {
+    const example = EXAMPLE_WHALES[coinSymbol];
+    if (example) {
+      setWalletAddress(example.address);
+      setPrediction(null); // Clear previous prediction
+    }
+  };
+
+  const handleCoinChange = (newCoin: string) => {
+    setCoinSymbol(newCoin);
+    // Auto-load example wallet for the new coin
+    const example = EXAMPLE_WHALES[newCoin];
+    if (example) {
+      setWalletAddress(example.address);
+      setPrediction(null);
     }
   };
 
@@ -71,15 +103,19 @@ export default function WhalePage() {
           </Link>
           <nav className="hidden md:flex gap-4 items-center">
             <Link href="/whale">
-              <Button variant="default">Whale Tracker</Button>
+              <Button variant="ghost" className="relative font-semibold bg-blue-50 dark:bg-blue-950/30 hover:bg-blue-100 dark:hover:bg-blue-900/40 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-blue-600 after:to-purple-600" aria-current="page">
+                Whale Tracker
+              </Button>
             </Link>
             <Link href="/sentiment">
-              <Button variant="ghost">Sentiment</Button>
+              <Button variant="ghost" className="hover:bg-gray-100 dark:hover:bg-gray-800">Sentiment</Button>
             </Link>
             <Link href="/risk">
-              <Button variant="ghost">Risk Assessment</Button>
+              <Button variant="ghost" className="hover:bg-gray-100 dark:hover:bg-gray-800">Risk Assessment</Button>
             </Link>
-            <Button>Get API Access</Button>
+            <Link href="http://localhost:3001/pricing" target="_blank" rel="noopener noreferrer">
+              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">Get API Access ✨</Button>
+            </Link>
             <ThemeToggle />
           </nav>
           {/* Mobile menu button */}
@@ -100,43 +136,80 @@ export default function WhalePage() {
       {/* Mobile slide-out menu */}
       {mobileMenuOpen && (
         <>
+          {/* Animated backdrop with blur */}
           <div 
-            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            className="fixed inset-0 bg-gradient-to-br from-black/70 via-blue-900/40 to-purple-900/40 backdrop-blur-md z-40 md:hidden animate-in fade-in duration-300"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-900 shadow-2xl z-50 md:hidden backdrop-blur-xl">
-            <div className="p-6 space-y-4">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="font-semibold text-lg">Menu</h3>
-                <Button 
-                  size="sm" 
-                  variant="ghost"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <X className="h-5 w-5" />
-                </Button>
+          {/* Slide-out panel with glassmorphism */}
+          <div className="fixed top-0 right-0 h-full w-80 bg-gradient-to-br from-white via-blue-50/50 to-purple-50/30 dark:from-gray-900 dark:via-blue-950/50 dark:to-purple-950/30 shadow-2xl z-50 md:hidden backdrop-blur-3xl border-l border-blue-500/30 animate-in slide-in-from-right duration-300">
+            <div className="flex flex-col h-full">
+              {/* Header with gradient accent */}
+              <div className="p-6 pb-4 border-b border-blue-500/20 backdrop-blur-xl bg-gradient-to-r from-blue-600/5 to-purple-600/5">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h3 className="font-bold text-xl bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Menu</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Navigate your experience</p>
+                  </div>
+                  <Button 
+                    size="sm" 
+                    variant="ghost"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="hover:bg-blue-100 dark:hover:bg-blue-900/50 hover:rotate-90 transition-all duration-300 rounded-full h-10 w-10 p-0"
+                  >
+                    <X className="h-5 w-5" />
+                  </Button>
+                </div>
               </div>
-              <Link href="/whale" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="default" className="w-full justify-start min-h-[44px]">
-                  <TrendingUp className="h-4 w-4 mr-2" />
-                  Whale Tracker
-                </Button>
-              </Link>
-              <Link href="/sentiment" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start min-h-[44px]">
-                  <MessageSquare className="h-4 w-4 mr-2" />
-                  Sentiment
-                </Button>
-              </Link>
-              <Link href="/risk" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start min-h-[44px]">
-                  <AlertCircle className="h-4 w-4 mr-2" />
-                  Risk Assessment
-                </Button>
-              </Link>
-              <Button className="w-full min-h-[44px]" onClick={() => setMobileMenuOpen(false)}>
-                Get API Access
-              </Button>
+              
+              {/* Menu items with staggered animation */}
+              <div className="flex-1 overflow-y-auto p-6 space-y-2">
+                <Link href="/whale" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="default" className="w-full justify-start min-h-[52px] bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-blue-500/50 rounded-xl relative overflow-hidden group" aria-current="page">
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                    <TrendingUp className="h-5 w-5 mr-3 relative z-10" />
+                    <span className="relative z-10">Whale Tracker</span>
+                  </Button>
+                </Link>
+                
+                <Link href="/sentiment" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-purple-100 hover:to-pink-100 dark:hover:from-purple-900/30 dark:hover:to-pink-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                    <MessageSquare className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">Sentiment</span>
+                  </Button>
+                </Link>
+                
+                <Link href="/risk" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-orange-100 hover:to-red-100 dark:hover:from-orange-900/30 dark:hover:to-red-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                    <AlertCircle className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">Risk Assessment</span>
+                  </Button>
+                </Link>
+                
+                {/* Divider with gradient */}
+                <div className="my-6 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
+                
+                {/* CTA Button with special effects */}
+                <Link href="http://localhost:3001/pricing" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>
+                  <Button className="w-full min-h-[56px] bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white font-bold shadow-xl hover:shadow-2xl hover:shadow-purple-500/50 hover:scale-[1.02] transition-all duration-300 rounded-xl relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                    <span className="mr-2 text-xl relative z-10">✨</span>
+                    <span className="relative z-10 font-extrabold">Get API Access</span>
+                    <span className="ml-2 relative z-10 group-hover:translate-x-1 transition-transform duration-300">→</span>
+                  </Button>
+                </Link>
+              </div>
+              
+              {/* Footer branding */}
+              <div className="p-6 pt-4 border-t border-blue-500/20 backdrop-blur-xl bg-gradient-to-r from-blue-600/5 to-purple-600/5">
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1">
+                    <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                    Live Demo
+                  </span>
+                  <span className="font-mono">v1.0</span>
+                </div>
+              </div>
             </div>
           </div>
         </>
@@ -154,98 +227,154 @@ export default function WhalePage() {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8 mb-12">
+            {/* Quick Start Examples */}
+            <Card className="border-2 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 backdrop-blur-xl">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <TrendingUp className="h-5 w-5 text-blue-600" />
+                  🚀 Quick Start Examples
+                </CardTitle>
+                <CardDescription>Click any whale to analyze instantly</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {Object.entries(EXAMPLE_WHALES).map(([coin, { address, label }]) => (
+                  <button
+                    key={coin}
+                    onClick={() => {
+                      setCoinSymbol(coin);
+                      setWalletAddress(address);
+                      setPrediction(null);
+                    }}
+                    className="w-full p-3 text-left rounded-lg border-2 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all duration-200 hover:scale-[1.02] group"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="font-semibold text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                          {coin} - {label}
+                        </div>
+                        <div className="text-xs text-muted-foreground font-mono truncate">
+                          {address.length > 40 ? `${address.slice(0, 20)}...${address.slice(-10)}` : address}
+                        </div>
+                      </div>
+                      <ArrowRight className="h-4 w-4 text-blue-600 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </button>
+                ))}
+              </CardContent>
+            </Card>
+
             <Card className="border-2 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl">
               <CardHeader>
                 <CardTitle>Analyze Wallet</CardTitle>
-                <CardDescription>Enter a wallet address to predict movement</CardDescription>
+                <CardDescription>Or enter your own wallet address</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="block text-sm font-medium">Coin Symbol</label>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={loadExampleWallet}
+                      className="text-xs text-blue-600 hover:text-blue-700 h-auto py-1"
+                    >
+                      📝 Load Example
+                    </Button>
+                  </div>
+                  <select
+                    value={coinSymbol}
+                    onChange={(e) => handleCoinChange(e.target.value)}
+                    className="w-full px-4 py-3 border rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 transition-all"
+                  >
+                    <option value="BTC">🟠 Bitcoin (BTC)</option>
+                    <option value="ETH">🔷 Ethereum (ETH)</option>
+                    <option value="SOL">🌅 Solana (SOL)</option>
+                    <option value="DOGE">🐕 Dogecoin (DOGE)</option>
+                    <option value="SHIB">🐶 Shiba Inu (SHIB)</option>
+                    <option value="PEPE">🐸 Pepe (PEPE)</option>
+                    <option value="MATIC">🟣 Polygon (MATIC)</option>
+                    <option value="LINK">🔗 Chainlink (LINK)</option>
+                    <option value="UNI">🦄 Uniswap (UNI)</option>
+                    <option value="AVAX">🔺 Avalanche (AVAX)</option>
+                  </select>
+                  {EXAMPLE_WHALES[coinSymbol] && walletAddress === EXAMPLE_WHALES[coinSymbol].address && (
+                    <div className="mt-2 text-xs text-blue-600 dark:text-blue-400 flex items-center gap-1">
+                      ✨ Using example: {EXAMPLE_WHALES[coinSymbol].label}
+                    </div>
+                  )}
+                </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">Wallet Address</label>
                   <input
                     type="text"
                     value={walletAddress}
                     onChange={(e) => setWalletAddress(e.target.value)}
-                    className="w-full px-4 py-3 border rounded-lg font-mono text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white"
-                    placeholder="0x..."
+                    className="w-full px-4 py-3 border rounded-lg font-mono text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 transition-all"
+                    placeholder="0x... or paste any wallet address"
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Coin Symbol</label>
-                  <select
-                    value={coinSymbol}
-                    onChange={(e) => setCoinSymbol(e.target.value)}
-                    className="w-full px-4 py-3 border rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-white"
-                  >
-                    <option value="BTC">Bitcoin (BTC)</option>
-                    <option value="ETH">Ethereum (ETH)</option>
-                    <option value="DOGE">Dogecoin (DOGE)</option>
-                    <option value="SHIB">Shiba Inu (SHIB)</option>
-                    <option value="PEPE">Pepe (PEPE)</option>
-                  </select>
-                </div>
-                <Button onClick={analyzeTrans} disabled={loading} className="w-full" size="lg">
-                  {loading ? "Analyzing..." : "Predict Movement"}
+                <Button onClick={analyzeTrans} disabled={loading} className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-bold shadow-lg hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" size="lg">
+                  {loading ? "Analyzing..." : "🔮 Predict Movement"}
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
               </CardContent>
             </Card>
-
-            {prediction && (
-              <Card className="border-2 border-blue-200 dark:border-blue-800 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <TrendingUp className="h-6 w-6 text-blue-600" />
-                    AI Prediction Results
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="text-center p-6 bg-white dark:bg-gray-900 rounded-lg">
-                    <div className="text-5xl font-bold text-blue-600 mb-2">
-                      {(prediction.movement_probability * 100).toFixed(0)}%
-                    </div>
-                    <div className="text-sm text-muted-foreground">Movement Probability</div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center p-4 bg-white dark:bg-gray-900 rounded-lg">
-                      <div className={`text-2xl font-bold ${getActionColor(prediction.predicted_action)} text-white px-3 py-1 rounded-full inline-block mb-2`}>
-                        {prediction.predicted_action.toUpperCase()}
-                      </div>
-                      <div className="text-xs text-muted-foreground">Predicted Action</div>
-                    </div>
-
-                    <div className="text-center p-4 bg-white dark:bg-gray-900 rounded-lg">
-                      <div className={`text-2xl font-bold ${getRiskColor(prediction.risk_level)} mb-2`}>
-                        {prediction.risk_level.toUpperCase()}
-                      </div>
-                      <div className="text-xs text-muted-foreground">Risk Level</div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 bg-white dark:bg-gray-900 rounded-lg">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm">Confidence</span>
-                      <span className="font-semibold">{(prediction.confidence * 100).toFixed(1)}%</span>
-                    </div>
-                    <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-blue-600 to-purple-600"
-                        style={{ width: `${prediction.confidence * 100}%` }}
-                      />
-                    </div>
-                  </div>
-
-                  {prediction.estimated_amount && (
-                    <div className="p-4 bg-white dark:bg-gray-900 rounded-lg">
-                      <div className="text-sm text-muted-foreground mb-1">Estimated Amount</div>
-                      <div className="text-2xl font-bold">${prediction.estimated_amount.toLocaleString()}</div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            )}
           </div>
+
+          {prediction && (
+            <Card className="border-2 border-blue-200 dark:border-blue-800 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <TrendingUp className="h-6 w-6 text-blue-600" />
+                  AI Prediction Results
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="text-center p-6 bg-white dark:bg-gray-900 rounded-lg">
+                  <div className="text-5xl font-bold text-blue-600 mb-2">
+                    {(prediction.movement_probability * 100).toFixed(0)}%
+                  </div>
+                  <div className="text-sm text-muted-foreground">Movement Probability</div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center p-4 bg-white dark:bg-gray-900 rounded-lg">
+                    <div className={`text-2xl font-bold ${getActionColor(prediction.predicted_action)} text-white px-3 py-1 rounded-full inline-block mb-2`}>
+                      {prediction.predicted_action.toUpperCase()}
+                    </div>
+                    <div className="text-xs text-muted-foreground">Predicted Action</div>
+                  </div>
+
+                  <div className="text-center p-4 bg-white dark:bg-gray-900 rounded-lg">
+                    <div className={`text-2xl font-bold ${getRiskColor(prediction.risk_level)} mb-2`}>
+                      {prediction.risk_level.toUpperCase()}
+                    </div>
+                    <div className="text-xs text-muted-foreground">Risk Level</div>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-white dark:bg-gray-900 rounded-lg">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm">Confidence</span>
+                    <span className="font-semibold">{(prediction.confidence * 100).toFixed(1)}%</span>
+                  </div>
+                  <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-blue-600 to-purple-600"
+                      style={{ width: `${prediction.confidence * 100}%` }}
+                    />
+                  </div>
+                </div>
+
+                {prediction.estimated_amount && (
+                  <div className="p-4 bg-white dark:bg-gray-900 rounded-lg">
+                    <div className="text-sm text-muted-foreground mb-1">Estimated Amount</div>
+                    <div className="text-2xl font-bold">${prediction.estimated_amount.toLocaleString()}</div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
 
           <div className="grid md:grid-cols-3 gap-6 mb-12">
             <Card>

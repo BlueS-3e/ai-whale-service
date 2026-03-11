@@ -28,6 +28,7 @@ app.include_router(endpoints.health.router, prefix="/v1", tags=["health"])
 app.include_router(endpoints.whale.router, prefix="/v1", tags=["whale"])
 app.include_router(endpoints.sentiment.router, prefix="/v1", tags=["sentiment"])
 app.include_router(endpoints.risk.router, prefix="/v1", tags=["risk"])
+app.include_router(endpoints.payment.router, prefix="/v1/payment", tags=["payment"])
 
 # Include web3 router if available
 if hasattr(endpoints, "web3"):

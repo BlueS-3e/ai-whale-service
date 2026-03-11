@@ -24,15 +24,17 @@ export default function DemoPage() {  const [mobileMenuOpen, setMobileMenuOpen] 
           </div>
           <nav className="hidden md:flex gap-4 items-center">
             <Link href="/whale">
-              <Button variant="ghost">Whale Tracker</Button>
+              <Button variant="ghost" className="hover:bg-gray-100 dark:hover:bg-gray-800">Whale Tracker</Button>
             </Link>
             <Link href="/sentiment">
-              <Button variant="ghost">Sentiment</Button>
+              <Button variant="ghost" className="hover:bg-gray-100 dark:hover:bg-gray-800">Sentiment</Button>
             </Link>
             <Link href="/risk">
-              <Button variant="ghost">Risk Assessment</Button>
+              <Button variant="ghost" className="hover:bg-gray-100 dark:hover:bg-gray-800">Risk Assessment</Button>
             </Link>
-            <Button>Get API Access</Button>
+            <Link href="http://localhost:3001/pricing" target="_blank" rel="noopener noreferrer">
+              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 animate-pulse">Get API Access ✨</Button>
+            </Link>
             <ThemeToggle />
           </nav>
           {/* Mobile menu button */}
@@ -53,45 +55,79 @@ export default function DemoPage() {  const [mobileMenuOpen, setMobileMenuOpen] 
       {/* Mobile slide-out menu */}
       {mobileMenuOpen && (
         <>
-          {/* Backdrop */}
+          {/* Animated backdrop with blur */}
           <div 
-            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            className="fixed inset-0 bg-gradient-to-br from-black/70 via-purple-900/40 to-blue-900/40 backdrop-blur-md z-40 md:hidden animate-in fade-in duration-300"
             onClick={() => setMobileMenuOpen(false)}
           />
-          {/* Menu panel */}
-          <div className="fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-900 shadow-2xl z-50 md:hidden backdrop-blur-xl">
-            <div className="p-6 space-y-4">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="font-semibold text-lg">Menu</h3>
-                <Button 
-                  size="sm" 
-                  variant="ghost"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <X className="h-5 w-5" />
-                </Button>
+          {/* Slide-out panel with glassmorphism */}
+          <div className="fixed top-0 right-0 h-full w-80 bg-gradient-to-br from-white via-blue-50/50 to-purple-50/30 dark:from-gray-900 dark:via-blue-950/50 dark:to-purple-950/30 shadow-2xl z-50 md:hidden backdrop-blur-3xl border-l border-purple-500/30 animate-in slide-in-from-right duration-300">
+            <div className="flex flex-col h-full">
+              {/* Header with gradient accent */}
+              <div className="p-6 pb-4 border-b border-purple-500/20 backdrop-blur-xl bg-gradient-to-r from-blue-600/5 to-purple-600/5">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h3 className="font-bold text-xl bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Menu</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Navigate your experience</p>
+                  </div>
+                  <Button 
+                    size="sm" 
+                    variant="ghost"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="hover:bg-purple-100 dark:hover:bg-purple-900/50 hover:rotate-90 transition-all duration-300 rounded-full h-10 w-10 p-0"
+                  >
+                    <X className="h-5 w-5" />
+                  </Button>
+                </div>
               </div>
-              <Link href="/whale" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start min-h-[44px]">
-                  <TrendingUp className="h-4 w-4 mr-2" />
-                  Whale Tracker
-                </Button>
-              </Link>
-              <Link href="/sentiment" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start min-h-[44px]">
-                  <MessageSquare className="h-4 w-4 mr-2" />
-                  Sentiment
-                </Button>
-              </Link>
-              <Link href="/risk" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start min-h-[44px]">
-                  <AlertTriangle className="h-4 w-4 mr-2" />
-                  Risk Assessment
-                </Button>
-              </Link>
-              <Button className="w-full min-h-[44px]" onClick={() => setMobileMenuOpen(false)}>
-                Get API Access
-              </Button>
+              
+              {/* Menu items with staggered animation */}
+              <div className="flex-1 overflow-y-auto p-6 space-y-2">
+                <Link href="/whale" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-blue-100 hover:to-cyan-100 dark:hover:from-blue-900/30 dark:hover:to-cyan-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                    <TrendingUp className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">Whale Tracker</span>
+                  </Button>
+                </Link>
+                
+                <Link href="/sentiment" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-purple-100 hover:to-pink-100 dark:hover:from-purple-900/30 dark:hover:to-pink-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                    <MessageSquare className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">Sentiment</span>
+                  </Button>
+                </Link>
+                
+                <Link href="/risk" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-orange-100 hover:to-red-100 dark:hover:from-orange-900/30 dark:hover:to-red-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                    <AlertTriangle className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">Risk Assessment</span>
+                  </Button>
+                </Link>
+                
+                {/* Divider with gradient */}
+                <div className="my-6 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
+                
+                {/* CTA Button with special effects */}
+                <Link href="http://localhost:3001/pricing" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>
+                  <Button className="w-full min-h-[56px] bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white font-bold shadow-xl hover:shadow-2xl hover:shadow-purple-500/50 hover:scale-[1.02] transition-all duration-300 rounded-xl relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                    <span className="mr-2 text-xl relative z-10">✨</span>
+                    <span className="relative z-10 font-extrabold">Get API Access</span>
+                    <span className="ml-2 relative z-10 group-hover:translate-x-1 transition-transform duration-300">→</span>
+                  </Button>
+                </Link>
+              </div>
+              
+              {/* Footer branding */}
+              <div className="p-6 pt-4 border-t border-purple-500/20 backdrop-blur-xl bg-gradient-to-r from-blue-600/5 to-purple-600/5">
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1">
+                    <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                    Live Demo
+                  </span>
+                  <span className="font-mono">v1.0</span>
+                </div>
+              </div>
             </div>
           </div>
         </>
@@ -107,9 +143,9 @@ export default function DemoPage() {  const [mobileMenuOpen, setMobileMenuOpen] 
           </p>
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center px-4">
             <Link href="/whale">
-              <Button size="lg" className="w-full sm:w-auto">Try Live Demo</Button>
+              <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white font-bold shadow-2xl hover:shadow-purple-500/50 hover:scale-105 transition-all duration-300">🚀 Try Live Demo</Button>
             </Link>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto">View API Docs</Button>
+            <Button size="lg" variant="outline" className="w-full sm:w-auto border-2 border-purple-500 hover:bg-purple-500 hover:text-white font-semibold hover:scale-105 transition-all duration-300">📖 View API Docs</Button>
           </div>
         </div>
 
@@ -129,7 +165,7 @@ export default function DemoPage() {  const [mobileMenuOpen, setMobileMenuOpen] 
                 <li>✓ Action recommendations (buy/sell/hold)</li>
               </ul>
               <Link href="/whale">
-                <Button className="w-full mt-4 min-h-[44px]">Try Whale Tracker →</Button>
+                <Button className="w-full mt-4 min-h-[44px] bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold shadow-lg hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300">🐋 Try Whale Tracker →</Button>
               </Link>
             </CardContent>
           </Card>
@@ -149,7 +185,7 @@ export default function DemoPage() {  const [mobileMenuOpen, setMobileMenuOpen] 
                 <li>✓ Entity recognition & trends</li>
               </ul>
               <Link href="/sentiment">
-                <Button className="w-full mt-4 min-h-[44px]" variant="secondary">Try Sentiment Analyzer →</Button>
+                <Button className="w-full mt-4 min-h-[44px] bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold shadow-lg hover:shadow-purple-500/50 hover:scale-105 transition-all duration-300">💭 Try Sentiment Analyzer →</Button>
               </Link>
             </CardContent>
           </Card>
@@ -169,7 +205,7 @@ export default function DemoPage() {  const [mobileMenuOpen, setMobileMenuOpen] 
                 <li>✓ Liquidity & volatility checks</li>
               </ul>
               <Link href="/risk">
-                <Button className="w-full mt-4 min-h-[44px]" variant="outline">Try Risk Scorer →</Button>
+                <Button className="w-full mt-4 min-h-[44px] bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white font-semibold shadow-lg hover:shadow-orange-500/50 hover:scale-105 transition-all duration-300">⚠️ Try Risk Scorer →</Button>
               </Link>
             </CardContent>
           </Card>
