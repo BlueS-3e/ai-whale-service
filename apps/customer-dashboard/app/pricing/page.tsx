@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { 
   Check, 
   Sparkles, 
@@ -52,7 +51,6 @@ const tierColors = {
 };
 
 export default function PricingPage() {
-  const router = useRouter();
   const { address, isConnected } = useAccount();
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');
   const [pricingData, setPricingData] = useState<PricingData | null>(null);

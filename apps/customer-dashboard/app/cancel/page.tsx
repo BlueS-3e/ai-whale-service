@@ -9,7 +9,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { AISpaceBackground } from "@/components/animated-background";
 
 export default function CancelPage() {
-  const router = useRouter();
   const [showSupport, setShowSupport] = useState(false);
 
   return (
@@ -79,10 +78,10 @@ export default function CancelPage() {
                   
                   <details className="cursor-pointer">
                     <summary className="font-medium hover:text-gray-900 dark:hover:text-gray-200">
-                      What's your refund policy?
+                      What&apos;s your refund policy?
                     </summary>
                     <p className="mt-2 pl-4">
-                      We offer a 14-day money-back guarantee. If you're not satisfied with our service, contact us for a full refund within 14 days of purchase.
+                      We offer a 14-day money-back guarantee. If you&apos;re not satisfied with our service, contact us for a full refund within 14 days of purchase.
                     </p>
                   </details>
                 </div>

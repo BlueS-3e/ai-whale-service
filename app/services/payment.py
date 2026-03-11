@@ -8,7 +8,6 @@ from app.core.pricing import (
     PricingTier,
     get_tier_config,
     CRYPTO_ANNUAL_DISCOUNT,
-    PAYMENT_METHODS,
 )
 
 logger = get_logger(__name__)

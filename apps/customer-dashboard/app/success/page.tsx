@@ -13,12 +13,19 @@ export default function SuccessPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [verifying, setVerifying] = useState(true);
-  const [paymentInfo, setPaymentInfo] = useState<any>(null);
+  const [paymentInfo, setPaymentInfo] = useState<{
+    tier: string;
+    amount: number;
+    currency: string;
+    billing_cycle: string;
+    api_key?: string;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     verifyPayment();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const verifyPayment = async () => {
@@ -151,7 +158,7 @@ export default function SuccessPage() {
                     <div className="space-y-3">
                       <h3 className="font-semibold text-lg">Your API Key</h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Keep this key secure. You'll need it to access the API.
+                        Keep this key secure. You&apos;ll need it to access the API.
                       </p>
                       <div className="flex items-center gap-2">
                         <input
@@ -174,7 +181,7 @@ export default function SuccessPage() {
 
               {/* Next Steps */}
               <div className="space-y-3">
-                <h3 className="font-semibold text-lg">What's Next?</h3>
+                <h3 className="font-semibold text-lg">What&apos;s Next?</h3>
                 <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                   <p>✓ Check your email for a receipt and welcome message</p>
                   <p>✓ Manage your API keys in the dashboard</p>
