@@ -1,5 +1,5 @@
 """Pricing tiers and endpoint cost configuration."""
-from typing import Dict, Optional
+from typing import Dict
 from enum import Enum
 
 

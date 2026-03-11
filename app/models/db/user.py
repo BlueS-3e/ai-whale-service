@@ -2,7 +2,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey, Enum as SQLEnum
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from datetime import datetime
 import secrets
 from app.core.database import Base
 from app.core.pricing import PricingTier

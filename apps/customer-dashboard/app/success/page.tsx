@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CheckCircle2, Copy, Activity, ArrowRight } from "lucide-react";
@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { AISpaceBackground } from "@/components/animated-background";
 import { paymentApi } from "@/lib/api-client";
 
-export default function SuccessPage() {
+function SuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [verifying, setVerifying] = useState(true);
@@ -225,5 +225,27 @@ export default function SuccessPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <AISpaceBackground />
+          <Card className="w-full max-w-md relative z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
+            <CardContent className="pt-6">
+              <div className="flex flex-col items-center space-y-4">
+                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600" />
+                <p className="text-lg">Loading...</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      }
+    >
+      <SuccessContent />
+    </Suspense>
   );
 }
