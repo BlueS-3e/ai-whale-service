@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BNB Whale AI - Hackathon Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #fff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .presentation {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            page-break-after: always;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Slide backgrounds */
+        .slide.cover {
+            background: linear-gradient(135deg, #FCD34D 0%, #F97316 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .slide.dark {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: white;
+        }
+
+        .slide.light {
+            background: #f9fafb;
+            color: #1f2937;
+        }
+
+        .slide.accent {
+            background: linear-gradient(135deg, #F97316 0%, #FBBF24 100%);
+            color: white;
+        }
+
+        /* Content containers */
+        .slide-content {
+            width: 100%;
+            max-width: 1000px;
+            z-index: 10;
+        }
+
+        .slide h1 {
+            font-size: 4rem;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .slide h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        .slide h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .slide p {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .slide ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .slide li {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            padding-left: 40px;
+            position: relative;
+        }
+
+        .slide li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #F97316;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            opacity: 0.85;
+        }
+
+        /* Two column layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .col-content {
+            padding: 20px;
+        }
+
+        .col-content h3 {
+            margin-top: 0;
+        }
+
+        /* Metrics */
+        .metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .metric-box {
+            background: rgba(255,255,255,0.15);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .metric-box h4 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .metric-box p {
+            font-size: 1.1rem;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        /* Contract address */
+        .contract-addr {
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            margin: 20px 0;
+            word-break: break-all;
+        }
+
+        /* Tech stack */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .tech-item {
+            background: rgba(255,255,255,0.15);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .tech-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .tech-item p {
+            font-size: 0.95rem;
+            margin: 0;
+            opacity: 0.85;
+        }
+
+        /* Phase items */
+        .phase-item {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #FBBF24;
+        }
+
+        .phase-item h4 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .phase-item p {
+            margin: 8px 0;
+            font-size: 1.1rem;
+        }
+
+        /* Roadmap timeline */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 25px;
+            align-items: flex-start;
+        }
+
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: #F97316;
+            border-radius: 50%;
+            margin-right: 20px;
+            flex-shrink: 0;
+            margin-top: 5px;
+        }
+
+        .timeline-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .timeline-content p {
+            margin: 0;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Slide number */
+        .slide-number {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            font-size: 1rem;
+            opacity: 0.6;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .slide {
+                page-break-after: always;
+                height: auto;
+                min-height: 100vh;
+                display: flex;
+            }
+        }
+
+        /* Logo area */
+        .logo-area {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+        }
+
+        .accent-text {
+            color: #FBBF24;
+        }
+
+        .footer-text {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+
+        <!-- Slide 1: Cover -->
+        <div class="slide cover">
+            <div class="slide-content">
+                <div class="logo-area">🐋 BNB Whale AI</div>
+                <h1>On-Chain AI Prediction Platform</h1>
+                <p class="subtitle">Predicting whale movements with cryptographic proof</p>
+                <p class="tagline">BNB Chain Hackathon 2026</p>
+                <div class="footer-text">Team: AI Whale Service | Date: March 2026</div>
+            </div>
+            <div class="slide-number">1 / 10</div>
+        </div>
+
+        <!-- Slide 2: Problem -->
+        <div class="slide dark">
+            <div class="slide-content">
+                <h2>The Problem</h2>
+                <ul>
+                    <li><strong>80% of market volatility</strong> caused by whale transactions</li>
+                    <li>Retail traders <strong>miss critical signals</strong> before major movements</li>
+                    <li>Existing tracking tools are <strong>centralized and non-transparent</strong></li>
+                    <li><strong>$3.2B daily trading volume</strong> in crypto — high stakes, poor visibility</li>
+                    <li>No trustworthy, <strong>on-chain proof</strong> of prediction accuracy</li>
+                </ul>
+            </div>
+            <div class="slide-number">2 / 10</div>
+        </div>
+
+        <!-- Slide 3: Solution -->
+        <div class="slide light">
+            <div class="slide-content">
+                <h2>Our Solution</h2>
+                <div class="two-col">
+                    <div class="col-content">
+                        <h3>🤖 AI-Powered Predictions</h3>
+                        <p>Machine learning models trained on 5+ years of on-chain data to identify whale movement patterns.</p>
+                    </div>
+                    <div class="col-content">
+                        <h3>⛓️ Smart Contract Proof</h3>
+                        <p>All predictions recorded immutably on BNB Chain for transparent, auditable accuracy verification.</p>
+                    </div>
+                </div>
+                <div class="two-col">
+                    <div class="col-content">
+                        <h3>📊 Real-Time Dashboard</h3>
+                        <p>Beautiful, intuitive interface showing whale alerts, risk scores, and sentiment analysis.</p>
+                    </div>
+                    <div class="col-content">
+                        <h3>🔌 Developer API</h3>
+                        <p>RESTful API for institutional clients to integrate whale predictions into their platforms.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">3 / 10</div>
+        </div>
+
+        <!-- Slide 4: Market Opportunity -->
+        <div class="slide accent">
+            <div class="slide-content">
+                <h2>Market Opportunity</h2>
+                <div class="metrics">
+                    <div class="metric-box">
+                        <h4>$3.2B</h4>
+                        <p>Daily crypto trading volume</p>
+                    </div>
+                    <div class="metric-box">
+                        <h4>50M+</h4>
+                        <p>Active crypto traders globally</p>
+                    </div>
+                    <div class="metric-box">
+                        <h4>$5B</h4>
+                        <p>TAM for AI analytics platforms</p>
+                    </div>
+                    <div class="metric-box">
+                        <h4>3x</h4>
+                        <p>Return target (AI prediction accuracy)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">4 / 10</div>
+        </div>
+
+        <!-- Slide 5: Product Demo -->
+        <div class="slide light">
+            <div class="slide-content">
+                <h2>Product Features</h2>
+                <ul>
+                    <li><strong>Live Whale Tracker:</strong> Real-time monitoring of top 500 BNB whales</li>
+                    <li><strong>Risk Score:</strong> 0-100 scale predicting next 24h/7d/30d movements</li>
+                    <li><strong>Sentiment Dashboard:</strong> Aggregated Twitter/Discord/Telegram signals</li>
+                    <li><strong>API Endpoints:</strong> RESTful access for institutional integrations</li>
+                    <li><strong>Audit Trail:</strong> All predictions recorded on-chain for verification</li>
+                </ul>
+                <p style="margin-top: 40px; font-size: 1.2rem;"><strong>Demo available:</strong> https://youtu.be/4uzSVS3AGDM</p>
+            </div>
+            <div class="slide-number">5 / 10</div>
+        </div>
+
+        <!-- Slide 6: Technical Architecture -->
+        <div class="slide dark">
+            <div class="slide-content">
+                <h2>Technical Architecture</h2>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <h4>🎨 Frontend</h4>
+                        <p>Next.js 15 + TypeScript + Tailwind CSS</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>⚙️ Backend</h4>
+                        <p>FastAPI + Python 3.13 + Web3.py</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>📦 Smart Contracts</h4>
+                        <p>Solidity 0.8.20 on BNB Chain</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>🧠 AI/ML</h4>
+                        <p>TensorFlow + scikit-learn models</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>💾 Data</h4>
+                        <p>PostgreSQL + Redis cache</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>🔗 Blockchain</h4>
+                        <p>BNB Chain RPC + Etherscan API</p>
+                    </div>
+                </div>
+                <p style="margin-top: 30px; text-align: center; font-size: 1.1rem;">
+                    <strong>Smart Contract:</strong> 0x15152C17aB0078A910C792aBF71F0c54BB41e13E
+                </p>
+            </div>
+            <div class="slide-number">6 / 10</div>
+        </div>
+
+        <!-- Slide 7: Go-to-Market Strategy -->
+        <div class="slide accent">
+            <div class="slide-content">
+                <h2>Go-to-Market Strategy</h2>
+                <div class="phase-item">
+                    <h4>💰 Revenue Model: 3-Tier Pricing</h4>
+                    <p><strong>Freemium:</strong> 3 predictions/day (free)</p>
+                    <p><strong>Pro:</strong> Unlimited API access ($99/month)</p>
+                    <p><strong>Enterprise:</strong> Custom models + support ($299+/month)</p>
+                </div>
+                <div class="phase-item">
+                    <h4>🤝 Key Partnerships</h4>
+                    <p>Target: PancakeSwap, Lido, Venus Protocol, major exchanges (Binance, OKX)</p>
+                </div>
+                <div class="phase-item">
+                    <h4>📢 Community & Marketing</h4>
+                    <p>Discord (50K by M6) | Twitter X | Educational content on whale behavior</p>
+                </div>
+            </div>
+            <div class="slide-number">7 / 10</div>
+        </div>
+
+        <!-- Slide 8: Current Traction -->
+        <div class="slide light">
+            <div class="slide-content">
+                <h2>Current Traction ✅</h2>
+                <ul>
+                    <li>✅ <strong>Smart Contract Deployed:</strong> Live on BSC testnet</li>
+                    <li>✅ <strong>2 Proof Transactions:</strong> Whale prediction + Sentiment analysis recorded on-chain</li>
+                    <li>✅ <strong>Working Dashboards:</strong> Demo + Customer portals built and tested</li>
+                    <li>✅ <strong>API Ready:</strong> RESTful endpoints for institutional clients</li>
+                    <li>✅ <strong>All Tests Passing:</strong> CI/CD pipeline green</li>
+                </ul>
+                <p style="margin-top: 40px; padding: 20px; background: #FCD34D; border-radius: 8px; color: #000;">
+                    <strong>Proof on BscScan:</strong><br>
+                    TX1: 9e4dcd6a604a5aa7219a9727627446ea9e931f17bc7fd9525fb2774742a54050<br>
+                    TX2: 26c1633f99142e419b357bb22c471eb93660697a8efb95b9c4ccf5ba21528adc
+                </p>
+            </div>
+            <div class="slide-number">8 / 10</div>
+        </div>
+
+        <!-- Slide 9: 6-Month Roadmap -->
+        <div class="slide dark">
+            <div class="slide-content">
+                <h2>6-Month Roadmap</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Month 1-2: MVP Launch</h4>
+                            <p>Mainnet deployment, BNB integration, real-time monitoring</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Month 2-3: Analytics & Attribution</h4>
+                            <p>Prediction accuracy dashboard, historical analysis, sentiment engine</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Month 3-5: SaaS & Enterprise</h4>
+                            <p>Subscription model, institutional API, 5+ protocol partnerships</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Month 5-6: DAO & Tokenomics</h4>
+                            <p>WHALE token launch, governance, community-driven development</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 30px; text-align: center; font-size: 1.1rem;">
+                    <strong>Revenue Target:</strong> $50K MRR by M6 | <strong>Budget:</strong> $180K
+                </p>
+            </div>
+            <div class="slide-number">9 / 10</div>
+        </div>
+
+        <!-- Slide 10: Call to Action -->
+        <div class="slide cover" style="background: linear-gradient(135deg, #111827 0%, #1f2937 100%);">
+            <div class="slide-content">
+                <h1>Let's Build the Future of On-Chain AI</h1>
+                <p class="subtitle" style="margin-top: 60px;">Join us in revolutionizing whale tracking on BNB Chain</p>
+                
+                <div style="margin-top: 80px;">
+                    <div class="metric-box" style="background: rgba(249,115,22,0.2); border-color: #F97316;">
+                        <h4>🔗 Contract Address</h4>
+                        <p style="font-family: monospace; font-size: 1rem;">0x15152C17aB0078A910C792aBF71F0c54BB41e13E</p>
+                    </div>
+                </div>
+
+                <p style="margin-top: 60px; font-size: 1.3rem; font-weight: 600;">
+                    🚀 Ready for BNB Chain Hackathon<br>
+                    📧 Contact: team@bnbwhaleai.com<br>
+                    🌐 GitHub: github.com/BlueS-3e/ai-whale-service
+                </p>
+            </div>
+            <div class="slide-number">10 / 10</div>
+        </div>
+
+    </div>
+</body>
+</html>
