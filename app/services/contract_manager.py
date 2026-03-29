@@ -6,7 +6,7 @@ Handles on-chain recording of AI predictions for transparency and verification.
 
 import json
 import logging
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 from web3 import Web3
 from eth_account import Account
 from app.core.config import settings
@@ -21,7 +21,7 @@ class ContractInteractionError(Exception):
 
 class WhaleContractManager:
     """Manages interactions with WhalePredictor smart contract"""
-    
+
     # Contract ABI (stripped down for essentials)
     CONTRACT_ABI = json.loads('''[
         {
@@ -89,7 +89,7 @@ class WhaleContractManager:
             "type": "function"
         }
     ]''')
-    
+
     def __init__(
         self,
         contract_address: str,
@@ -98,7 +98,7 @@ class WhaleContractManager:
     ):
         """
         Initialize contract manager
-        
+
         Args:
             contract_address: Deployed contract address
             chain: Blockchain network ("bsc" for BSC, "ethereum" for Ethereum, etc.)
@@ -107,28 +107,28 @@ class WhaleContractManager:
         self.contract_address = Web3.to_checksum_address(contract_address)
         self.chain = chain
         self.private_key = private_key or settings.CONTRACT_PRIVATE_KEY
-        
+
         # Get RPC endpoint
         self.rpc_url = self._get_rpc_url()
         self.w3 = Web3(Web3.HTTPProvider(self.rpc_url))
-        
+
         if not self.w3.is_connected():
             raise ContractInteractionError(f"Cannot connect to {chain} RPC: {self.rpc_url}")
-        
+
         # Initialize contract
         self.contract = self.w3.eth.contract(
             address=self.contract_address,
             abi=self.CONTRACT_ABI
         )
-        
+
         # Set account for signing transactions
         if self.private_key:
             self.account = Account.from_key(self.private_key)
         else:
             self.account = None
-        
+
         logger.info(f"WhaleContractManager initialized for {chain}: {contract_address}")
-    
+
     def _get_rpc_url(self) -> str:
         """Get RPC URL for chain"""
         rpc_map = {
@@ -138,13 +138,13 @@ class WhaleContractManager:
             "arbitrum": settings.ARBITRUM_RPC_URL,
             "base": settings.BASE_RPC_URL,
         }
-        
+
         rpc_url = rpc_map.get(self.chain.lower())
         if not rpc_url:
             raise ValueError(f"Unsupported chain: {self.chain}")
-        
+
         return rpc_url
-    
+
     def record_prediction(
         self,
         prediction_data: Dict,
@@ -154,7 +154,7 @@ class WhaleContractManager:
     ) -> Dict:
         """
         Record a prediction on-chain
-        
+
         Args:
             prediction_data: Dictionary with keys:
                 - wallet_address: str (the whale wallet being analyzed)
@@ -165,7 +165,7 @@ class WhaleContractManager:
             gas_limit: Maximum gas to use
             wait_for_receipt: Whether to wait for transaction confirmation
             timeout: Seconds to wait for receipt
-        
+
         Returns:
             Dictionary with:
                 - tx_hash: Transaction hash
@@ -176,7 +176,7 @@ class WhaleContractManager:
         """
         if not self.account:
             raise ContractInteractionError("Private key not configured for transactions")
-        
+
         try:
             # Hash the prediction data for on-chain storage
             prediction_dict = {
@@ -187,13 +187,13 @@ class WhaleContractManager:
                 "model_output": prediction_data.get("model_output"),
                 "timestamp": prediction_data.get("timestamp")
             }
-            
+
             # Keccak256 hash of prediction JSON
             prediction_json = json.dumps(prediction_dict, sort_keys=True)
             prediction_hash = Web3.keccak(text=prediction_json)
-            
+
             logger.info(f"Recording prediction on {self.chain}: {prediction_data['wallet_address']}")
-            
+
             # Build transaction
             tx_dict = self.contract.functions.recordPrediction(
                 prediction_hash,
@@ -208,14 +208,14 @@ class WhaleContractManager:
                 "gasPrice": self.w3.eth.gas_price,
                 "chainId": self.w3.eth.chain_id
             })
-            
+
             # Sign transaction
             signed_tx = self.w3.eth.account.sign_transaction(tx_dict, self.private_key)
-            
+
             # Send transaction
             tx_hash = self.w3.eth.send_raw_transaction(signed_tx.rawTransaction)
             logger.info(f"Prediction submitted: {tx_hash.hex()}")
-            
+
             result = {
                 "tx_hash": tx_hash.hex(),
                 "prediction_hash": prediction_hash.hex(),
@@ -223,7 +223,7 @@ class WhaleContractManager:
                 "chain": self.chain,
                 "contract_address": self.contract_address
             }
-            
+
             # Wait for receipt if requested
             if wait_for_receipt:
                 try:
@@ -231,40 +231,40 @@ class WhaleContractManager:
                         tx_hash,
                         timeout=timeout
                     )
-                    
+
                     result["status"] = "success" if receipt["status"] == 1 else "failed"
                     result["block_number"] = receipt["blockNumber"]
                     result["gas_used"] = receipt["gasUsed"]
                     result["confirmation_date"] = receipt
-                    
+
                     if result["status"] == "success":
                         logger.info(f"Prediction recorded successfully: {tx_hash.hex()}")
                     else:
                         logger.error(f"Transaction failed: {tx_hash.hex()}")
-                        
+
                 except Exception as e:
                     logger.warning(f"Could not wait for receipt: {e}")
                     result["status"] = "unknown"
-            
+
             return result
-            
+
         except Exception as e:
             logger.error(f"Failed to record prediction: {e}")
             raise ContractInteractionError(f"Transaction failed: {str(e)}")
-    
+
     def get_latest_predictions(self, limit: int = 10) -> List[Dict]:
         """
         Retrieve latest predictions from contract
-        
+
         Args:
             limit: Maximum predictions to return (0 for all)
-        
+
         Returns:
             List of prediction dictionaries
         """
         try:
             predictions = self.contract.functions.getLatestPredictions(limit).call()
-            
+
             result = []
             for pred in predictions:
                 result.append({
@@ -277,27 +277,27 @@ class WhaleContractManager:
                     "timestamp": pred[6],
                     "block_number": pred[7]
                 })
-            
+
             return result
-            
+
         except Exception as e:
             logger.error(f"Failed to get predictions: {e}")
             return []
-    
+
     def get_prediction_by_hash(self, prediction_hash: str) -> Optional[Dict]:
         """
         Retrieve a specific prediction by its hash
-        
+
         Args:
             prediction_hash: The prediction hash (hex string)
-        
+
         Returns:
             Prediction dictionary or None if not found
         """
         try:
             hash_bytes = bytes.fromhex(prediction_hash.replace("0x", ""))
             prediction = self.contract.functions.getPredictionByHash(hash_bytes).call()
-            
+
             return {
                 "predictor": prediction[0],
                 "prediction_hash": prediction[1].hex(),
@@ -308,11 +308,11 @@ class WhaleContractManager:
                 "timestamp": prediction[6],
                 "block_number": prediction[7]
             }
-            
+
         except Exception as e:
             logger.error(f"Failed to get prediction: {e}")
             return None
-    
+
     def get_total_predictions(self) -> int:
         """Get total count of predictions recorded"""
         try:
@@ -320,13 +320,13 @@ class WhaleContractManager:
         except Exception as e:
             logger.error(f"Failed to get total predictions: {e}")
             return 0
-    
+
     def health_check(self) -> Dict:
         """Check contract and RPC connection health"""
         try:
             total = self.get_total_predictions()
             latest_block = self.w3.eth.block_number
-            
+
             return {
                 "connected": True,
                 "contract_address": self.contract_address,
