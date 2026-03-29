@@ -1,6 +1,6 @@
-# AI Whale Service 🐋
+# BNB Whale AI 🐋
 
-An AI-as-a-service platform for cryptocurrency whale movement prediction, sentiment analysis, and risk assessment.
+AI-as-a-service platform for BNB ecosystem whale movement prediction, sentiment analysis, and risk assessment.
 
 ## 🚀 Features
 

@@ -1,6 +1,6 @@
 # 🚀 Deployment Guide - Vercel + Railway
 
-This guide walks you through deploying the AI Whale Service to production using:
+This guide walks you through deploying BNB Whale AI to production using:
 - **Vercel** for Next.js frontends (demo & customer dashboards)
 - **Railway** for FastAPI backend + PostgreSQL + Redis
 
@@ -25,7 +25,7 @@ git init
 git add .
 
 # Create initial commit
-git commit -m "Initial commit - AI Whale Service with mobile optimization"
+git commit -m "Initial commit - BNB Whale AI with mobile optimization"
 
 # Create repository on GitHub (via browser or CLI)
 # Then connect and push:
@@ -174,7 +174,7 @@ curl https://your-backend.up.railway.app/v1/health
 
 Expected:
 ```json
-{"status":"healthy","service":"AI Whale Service","version":"1.0.0"}
+{"status":"healthy","service":"BNB Whale AI","version":"1.0.0"}
 ```
 
 #### Demo Dashboard
@@ -362,7 +362,7 @@ Railway PostgreSQL connection:
 
 ## ✅ Deployment Complete!
 
-Your AI Whale Service is now live! 🎉
+Your BNB Whale AI service is now live! 🎉
 
 Next steps:
 1. ⭐ Star your repo on GitHub

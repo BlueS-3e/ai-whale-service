@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Quick Start Script for AI Whale Service Frontend
+# Quick Start Script for BNB Whale AI Frontend
 # Runs both dashboards simultaneously
 
 set -e
 
-echo "🚀 Starting AI Whale Service Dashboards..."
+echo "🚀 Starting BNB Whale AI Dashboards..."
 echo ""
 
 # Check if backend is running

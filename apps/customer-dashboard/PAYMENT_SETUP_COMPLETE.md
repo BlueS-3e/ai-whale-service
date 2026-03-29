@@ -148,7 +148,7 @@ On http://localhost:3000/pricing:
    ```typescript
    // lib/web3-config.ts
    export const config = getDefaultConfig({
-     appName: 'AI Whale Service',
+     appName: 'BNB Whale AI',
      appIcon: 'https://yourapp.com/logo.png', // Add this
      projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'YOUR_PROJECT_ID',
      chains: [mainnet, polygon, base, arbitrum, optimism],

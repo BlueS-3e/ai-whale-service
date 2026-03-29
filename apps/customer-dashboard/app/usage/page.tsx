@@ -34,8 +34,8 @@ export default function UsagePage() {
       <header className="border-b bg-white/60 dark:bg-gray-900/60 backdrop-blur-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <Activity className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />
-            <h1 className="text-lg md:text-2xl font-bold dark:text-white">AI Whale Service</h1>
+            <Activity className="h-6 w-6 md:h-8 md:w-8 text-amber-600" />
+            <h1 className="text-lg md:text-2xl font-bold dark:text-white">BNB Whale AI</h1>
           </Link>
           <nav className="hidden md:flex gap-4 items-center">
             <Link href="/api-keys">
@@ -75,24 +75,24 @@ export default function UsagePage() {
         <>
           {/* Animated backdrop with blur */}
           <div 
-            className="fixed inset-0 bg-gradient-to-br from-black/70 via-blue-900/40 to-purple-900/40 backdrop-blur-md z-40 md:hidden animate-in fade-in duration-300"
+            className="fixed inset-0 bg-gradient-to-br from-black/70 via-amber-900/40 to-orange-900/40 backdrop-blur-md z-40 md:hidden animate-in fade-in duration-300"
             onClick={() => setMobileMenuOpen(false)}
           />
           {/* Slide-out panel with glassmorphism */}
-          <div className="fixed top-0 right-0 h-full w-80 bg-gradient-to-br from-white via-blue-50/50 to-purple-50/30 dark:from-gray-900 dark:via-blue-950/50 dark:to-purple-950/30 shadow-2xl z-50 md:hidden backdrop-blur-3xl border-l border-blue-500/30 animate-in slide-in-from-right duration-300">
+          <div className="fixed top-0 right-0 h-full w-80 bg-gradient-to-br from-white via-amber-50/50 to-orange-50/30 dark:from-gray-900 dark:via-amber-950/50 dark:to-orange-950/30 shadow-2xl z-50 md:hidden backdrop-blur-3xl border-l border-amber-500/30 animate-in slide-in-from-right duration-300">
             <div className="flex flex-col h-full">
               {/* Header with gradient accent */}
-              <div className="p-6 pb-4 border-b border-blue-500/20 backdrop-blur-xl bg-gradient-to-r from-blue-600/5 to-purple-600/5">
+              <div className="p-6 pb-4 border-b border-amber-500/20 backdrop-blur-xl bg-gradient-to-r from-amber-600/5 to-orange-600/5">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h3 className="font-bold text-xl bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">Dashboard</h3>
+                    <h3 className="font-bold text-xl bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 bg-clip-text text-transparent">Dashboard</h3>
                     <p className="text-xs text-muted-foreground mt-1">Manage your API</p>
                   </div>
                   <Button 
                     size="sm" 
                     variant="ghost"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="hover:bg-blue-100 dark:hover:bg-blue-900/50 hover:rotate-90 transition-all duration-300 rounded-full h-10 w-10 p-0"
+                    className="hover:bg-amber-100 dark:hover:bg-amber-900/50 hover:rotate-90 transition-all duration-300 rounded-full h-10 w-10 p-0"
                   >
                     <X className="h-5 w-5" />
                   </Button>
@@ -102,14 +102,14 @@ export default function UsagePage() {
               {/* Menu items with staggered animation */}
               <div className="flex-1 overflow-y-auto p-6 space-y-2">
                 <Link href="/api-keys" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-amber-100 hover:to-orange-100 dark:hover:from-amber-900/30 dark:hover:to-orange-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
                     <Key className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
                     <span className="group-hover:translate-x-1 transition-transform duration-300">API Keys</span>
                   </Button>
                 </Link>
                 
                 <Link href="/usage" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="default" className="w-full justify-start min-h-[52px] bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-blue-500/50 rounded-xl relative overflow-hidden group" aria-current="page">
+                  <Button variant="default" className="w-full justify-start min-h-[52px] bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-amber-500/50 rounded-xl relative overflow-hidden group" aria-current="page">
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                     <BarChart3 className="h-5 w-5 mr-3 relative z-10" />
                     <span className="relative z-10">Usage</span>
@@ -117,21 +117,21 @@ export default function UsagePage() {
                 </Link>
                 
                 <Link href="/playground" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-amber-100 hover:to-orange-100 dark:hover:from-amber-900/30 dark:hover:to-orange-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
                     <Play className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
                     <span className="group-hover:translate-x-1 transition-transform duration-300">Playground</span>
                   </Button>
                 </Link>
                 
                 <Link href="/pricing" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-amber-100 hover:to-orange-100 dark:hover:from-amber-900/30 dark:hover:to-orange-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
                     <DollarSign className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
                     <span className="group-hover:translate-x-1 transition-transform duration-300">Pricing</span>
                   </Button>
                 </Link>
                 
                 <Link href="/docs" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-amber-100 hover:to-orange-100 dark:hover:from-amber-900/30 dark:hover:to-orange-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
                     <FileText className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
                     <span className="group-hover:translate-x-1 transition-transform duration-300">Documentation</span>
                   </Button>
@@ -139,7 +139,7 @@ export default function UsagePage() {
               </div>
               
               {/* Footer branding */}
-              <div className="p-6 pt-4 border-t border-blue-500/20 backdrop-blur-xl bg-gradient-to-r from-blue-600/5 to-purple-600/5">
+              <div className="p-6 pt-4 border-t border-amber-500/20 backdrop-blur-xl bg-gradient-to-r from-amber-600/5 to-orange-600/5">
                 <div className="flex items-center justify-between text-xs text-muted-foreground">
                   <span className="flex items-center gap-1">
                     <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
@@ -174,7 +174,7 @@ export default function UsagePage() {
                 </div>
                 <div className="mt-2 h-2 bg-slate-200 dark:bg-gray-700 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-blue-600"
+                    className="h-full bg-amber-600"
                     style={{
                       width: `${(usageData.currentMonth.calls / usageData.currentMonth.limit) * 100}%`,
                     }}
@@ -229,7 +229,7 @@ export default function UsagePage() {
                     </div>
                     <div className="h-2 bg-slate-200 dark:bg-gray-700 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-blue-600 to-purple-600"
+                        className="h-full bg-gradient-to-r from-amber-600 to-orange-600"
                         style={{ width: `${item.percentage}%` }}
                       />
                     </div>

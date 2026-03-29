@@ -33,7 +33,7 @@ class Web3Auth:
         domain: str,
         uri: str,
         chain_id: int = 1,
-        statement: str = "Sign in to AI Whale Service"
+        statement: str = "Sign in to BNB Whale AI"
     ) -> Dict[str, Any]:
         """
         Create a SIWE message for the user to sign

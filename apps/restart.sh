@@ -2,7 +2,7 @@
 
 # Restart All Dashboards Script
 
-echo "🔄 Restarting AI Whale Service Dashboards..."
+echo "🔄 Restarting BNB Whale AI Dashboards..."
 echo ""
 
 # Stop existing processes

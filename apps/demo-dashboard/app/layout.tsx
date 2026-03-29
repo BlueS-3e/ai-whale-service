@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/components/query-provider";
 import { Providers } from "@/components/providers";
 import { ThemeProvider } from "@/components/theme-provider";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
-  title: "AI Whale Service - Live Demo",
-  description: "Real-time whale tracking, sentiment analysis, and risk assessment",
+  title: "BNB Whale AI - Live Demo",
+  description: "Real-time whale tracking, sentiment analysis, and risk assessment for the BNB ecosystem",
 };
 
 export default function RootLayout({
@@ -19,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className="antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

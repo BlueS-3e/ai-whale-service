@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# AI Whale Service - Frontend Setup Script
+# BNB Whale AI - Frontend Setup Script
 # This script sets up both customer and demo dashboards
 
 set -e
 
-echo "🚀 AI Whale Service - Frontend Setup"
-echo "======================================"
+echo "🚀 BNB Whale AI - Frontend Setup"
+echo "======================================="
 echo ""
 
 # Colors for output

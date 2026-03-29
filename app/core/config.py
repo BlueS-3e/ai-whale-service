@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
     # Project Info
-    PROJECT_NAME: str = "AI Whale Service"
+    PROJECT_NAME: str = "BNB Whale AI"
     ENVIRONMENT: str = "development"
 
     # Server Configuration
@@ -48,6 +48,14 @@ class Settings(BaseSettings):
     ETHEREUM_RPC_URL: str = "https://eth-mainnet.g.alchemy.com/v2/your-key"
     POLYGON_RPC_URL: str = "https://polygon-mainnet.g.alchemy.com/v2/your-key"
     BSC_RPC_URL: str = "https://bsc-dataseed.binance.org/"
+    ARBITRUM_RPC_URL: str = "https://arb1.arbitrum.io/rpc"
+    BASE_RPC_URL: str = "https://mainnet.base.org"
+
+    # Smart Contract Configuration
+    CONTRACT_ADDRESS: str | None = None  # WhalePredictor contract address
+    CONTRACT_PRIVATE_KEY: str | None = None  # Private key for submitting predictions
+    CONTRACT_CHAIN: str = "bsc"  # Chain where contract is deployed
+    CONTRACT_GAS_LIMIT: int = 200000  # Gas limit for contract transactions
 
     # Rate Limiting
     RATE_LIMIT_PER_MINUTE: int = 60

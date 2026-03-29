@@ -70,7 +70,7 @@ function SuccessContent() {
         <Card className="w-full max-w-md relative z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
           <CardContent className="pt-6">
             <div className="flex flex-col items-center space-y-4">
-              <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600" />
+              <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-amber-600" />
               <p className="text-lg">Verifying your payment...</p>
             </div>
           </CardContent>
@@ -106,9 +106,9 @@ function SuccessContent() {
       <header className="border-b bg-white/60 dark:bg-gray-900/60 backdrop-blur-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <Activity className="h-8 w-8 text-blue-600" />
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              AI Whale Service
+            <Activity className="h-8 w-8 text-amber-500" />
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
+              BNB Whale AI
             </h1>
           </Link>
         </div>
@@ -124,7 +124,7 @@ function SuccessContent() {
               </div>
               <CardTitle className="text-3xl mb-2">Payment Successful! 🎉</CardTitle>
               <CardDescription className="text-lg">
-                Welcome to AI Whale Service. Your subscription is now active.
+                Welcome to BNB Whale AI. Your subscription is now active.
               </CardDescription>
             </CardHeader>
 
@@ -195,7 +195,7 @@ function SuccessContent() {
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <Link href="/api-keys" className="flex-1">
-                  <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                  <Button className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600">
                     View API Keys
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -211,11 +211,11 @@ function SuccessContent() {
               <div className="text-center text-sm text-gray-600 dark:text-gray-400 pt-4 border-t">
                 <p>
                   Need help getting started?{' '}
-                  <Link href="/docs" className="text-blue-600 hover:underline">
+                  <Link href="/docs" className="text-amber-500 hover:underline">
                     Check our docs
                   </Link>
                   {' '}or{' '}
-                  <a href="mailto:support@yourapp.com" className="text-blue-600 hover:underline">
+                  <a href="mailto:support@yourapp.com" className="text-amber-500 hover:underline">
                     contact support
                   </a>
                 </p>
@@ -237,7 +237,7 @@ export default function SuccessPage() {
           <Card className="w-full max-w-md relative z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center space-y-4">
-                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600" />
+                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-amber-600" />
                 <p className="text-lg">Loading...</p>
               </div>
             </CardContent>

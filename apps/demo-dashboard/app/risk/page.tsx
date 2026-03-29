@@ -74,9 +74,9 @@ export default function RiskPage() {
       <header className="border-b bg-white/60 dark:bg-gray-900/60 backdrop-blur-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <Activity className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />
-            <h1 className="text-lg md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              AI Whale Service
+            <Activity className="h-6 w-6 md:h-8 md:w-8 text-amber-500" />
+            <h1 className="text-lg md:text-2xl font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
+              BNB Whale AI
             </h1>
           </Link>
           <nav className="hidden md:flex gap-4 items-center">
@@ -92,7 +92,7 @@ export default function RiskPage() {
               </Button>
             </Link>
             <Link href="http://localhost:3001/pricing" target="_blank" rel="noopener noreferrer">
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">Get API Access ✨</Button>
+              <Button className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">Get API Access ✨</Button>
             </Link>
             <ThemeToggle />
           </nav>
@@ -143,14 +143,14 @@ export default function RiskPage() {
               {/* Menu items with staggered animation */}
               <div className="flex-1 overflow-y-auto p-6 space-y-2">
                 <Link href="/whale" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-blue-100 hover:to-cyan-100 dark:hover:from-blue-900/30 dark:hover:to-cyan-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-amber-100 hover:to-yellow-100 dark:hover:from-amber-900/30 dark:hover:to-yellow-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
                     <TrendingUp className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
                     <span className="group-hover:translate-x-1 transition-transform duration-300">Whale Tracker</span>
                   </Button>
                 </Link>
                 
                 <Link href="/sentiment" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-purple-100 hover:to-pink-100 dark:hover:from-purple-900/30 dark:hover:to-pink-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
+                  <Button variant="ghost" className="w-full justify-start min-h-[52px] hover:bg-gradient-to-r hover:from-orange-100 hover:to-yellow-100 dark:hover:from-orange-900/30 dark:hover:to-yellow-900/30 hover:scale-[1.02] hover:translate-x-1 transition-all duration-300 rounded-xl group">
                     <MessageSquare className="h-5 w-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
                     <span className="group-hover:translate-x-1 transition-transform duration-300">Sentiment</span>
                   </Button>
@@ -169,7 +169,7 @@ export default function RiskPage() {
                 
                 {/* CTA Button with special effects */}
                 <Link href="http://localhost:3001/pricing" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>
-                  <Button className="w-full min-h-[56px] bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white font-bold shadow-xl hover:shadow-2xl hover:shadow-purple-500/50 hover:scale-[1.02] transition-all duration-300 rounded-xl relative overflow-hidden group">
+                  <Button className="w-full min-h-[56px] bg-gradient-to-r from-amber-600 via-orange-600 to-yellow-600 hover:from-amber-700 hover:via-orange-700 hover:to-yellow-700 text-white font-bold shadow-xl hover:shadow-2xl hover:shadow-orange-500/50 hover:scale-[1.02] transition-all duration-300 rounded-xl relative overflow-hidden group">
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                     <span className="mr-2 text-xl relative z-10">✨</span>
                     <span className="relative z-10 font-extrabold">Get API Access</span>
@@ -389,7 +389,7 @@ export default function RiskPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <Shield className="h-5 w-5 text-blue-600" />
+                  <Shield className="h-5 w-5 text-amber-600" />
                   Smart Contract Audit
                 </CardTitle>
               </CardHeader>

@@ -18,9 +18,9 @@ export default function CancelPage() {
       <header className="border-b bg-white/60 dark:bg-gray-900/60 backdrop-blur-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <Activity className="h-8 w-8 text-blue-600" />
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              AI Whale Service
+            <Activity className="h-8 w-8 text-amber-600" />
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+              BNB Whale AI
             </h1>
           </Link>
         </div>
@@ -71,7 +71,7 @@ export default function CancelPage() {
                       Can I try for free first?
                     </summary>
                     <p className="mt-2 pl-4">
-                      Absolutely! Try our Demo plan with 100 free API calls per day. No credit card required. <Link href="/" className="text-blue-600 hover:underline">Start now</Link>
+                      Absolutely! Try our Demo plan with 100 free API calls per day. No credit card required. <Link href="/" className="text-amber-600 hover:underline">Start now</Link>
                     </p>
                   </details>
                   
@@ -92,7 +92,7 @@ export default function CancelPage() {
                 
                 <div className="space-y-2">
                   <Link href="/pricing">
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 justify-start">
+                    <Button className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 justify-start">
                       <ArrowLeft className="mr-2 h-4 w-4" />
                       Return to Pricing
                     </Button>
@@ -125,7 +125,7 @@ export default function CancelPage() {
                   <div className="space-y-1 text-sm">
                     <p>
                       <strong>Email:</strong>{' '}
-                      <a href="mailto:support@yourapp.com" className="text-blue-600 hover:underline">
+                      <a href="mailto:support@yourapp.com" className="text-amber-600 hover:underline">
                         support@yourapp.com
                       </a>
                     </p>
@@ -134,7 +134,7 @@ export default function CancelPage() {
                     </p>
                     <p>
                       <strong>Documentation:</strong>{' '}
-                      <Link href="/docs" className="text-blue-600 hover:underline">
+                      <Link href="/docs" className="text-amber-600 hover:underline">
                         View our help docs
                       </Link>
                     </p>
@@ -148,27 +148,27 @@ export default function CancelPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
                   <div className="bg-gray-50 dark:bg-gray-800 rounded p-3">
                     <p className="font-semibold">Starter</p>
-                    <p className="text-2xl font-bold text-blue-600">$49</p>
+                    <p className="text-2xl font-bold text-amber-600">$49</p>
                     <p className="text-gray-600 dark:text-gray-400">10,000 calls/mo</p>
                   </div>
-                  <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded p-3 border-2 border-blue-500">
+                  <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded p-3 border-2 border-amber-500">
                     <p className="font-semibold">Growth</p>
-                    <p className="text-2xl font-bold text-blue-600">$199</p>
+                    <p className="text-2xl font-bold text-amber-600">$199</p>
                     <p className="text-gray-600 dark:text-gray-400">100,000 calls/mo</p>
-                    <span className="inline-block mt-1 px-2 py-0.5 text-xs bg-blue-600 text-white rounded">
+                    <span className="inline-block mt-1 px-2 py-0.5 text-xs bg-amber-600 text-white rounded">
                       Most Popular
                     </span>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-800 rounded p-3">
                     <p className="font-semibold">Enterprise</p>
-                    <p className="text-2xl font-bold text-blue-600">$999</p>
+                    <p className="text-2xl font-bold text-amber-600">$999</p>
                     <p className="text-gray-600 dark:text-gray-400">1M+ calls/mo</p>
                   </div>
                 </div>
               </div>
 
               {/* Special Offer */}
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg p-4 text-center">
+              <div className="bg-gradient-to-r from-amber-600 to-orange-600 text-white rounded-lg p-4 text-center">
                 <p className="font-semibold mb-1">💎 Special Offer</p>
                 <p className="text-sm">
                   Pay yearly with crypto and save 30% total (20% yearly + 10% crypto discount)
@@ -179,11 +179,11 @@ export default function CancelPage() {
               <div className="text-center text-sm text-gray-600 dark:text-gray-400 pt-4 border-t">
                 <p>
                   Still have questions?{' '}
-                  <Link href="/docs" className="text-blue-600 hover:underline">
+                  <Link href="/docs" className="text-amber-600 hover:underline">
                     Read our FAQ
                   </Link>
                   {' '}or{' '}
-                  <a href="mailto:support@yourapp.com" className="text-blue-600 hover:underline">
+                  <a href="mailto:support@yourapp.com" className="text-amber-600 hover:underline">
                     email us
                   </a>
                 </p>

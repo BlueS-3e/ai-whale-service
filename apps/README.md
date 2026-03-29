@@ -1,4 +1,4 @@
-# 🚀 AI Whale Service - Frontend Setup
+# 🚀 BNB Whale AI - Frontend Setup
 
 Complete setup guide for the customer dashboard and demo dashboard.
 

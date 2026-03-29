@@ -33,6 +33,13 @@ class TokenBalanceRequest(BaseModel):
     chain: str = Field(default="ethereum", description="Blockchain name")
 
 
+class WalletTransactionsRequest(BaseModel):
+    """Request model for wallet transaction history"""
+    wallet_address: str = Field(..., description="Wallet address")
+    chain: str = Field(default="ethereum", description="Blockchain name")
+    limit: int = Field(default=10, ge=1, le=100, description="Max transactions")
+
+
 @router.post("/balance")
 async def get_wallet_balance(request: WalletBalanceRequest):
     """
@@ -124,6 +131,27 @@ async def get_token_balance(request: TokenBalanceRequest):
         return balance
     except Exception as e:
         logger.error(f"Error fetching token balance: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/wallet/transactions")
+async def get_wallet_transactions(request: WalletTransactionsRequest):
+    """Get recent wallet transactions from explorer APIs."""
+    try:
+        transactions = await blockchain_rpc.get_transaction_history(
+            wallet_address=request.wallet_address,
+            chain=request.chain,
+            limit=request.limit,
+        )
+        return {
+            "wallet_address": request.wallet_address,
+            "chain": request.chain,
+            "limit": request.limit,
+            "transactions_found": len(transactions),
+            "transactions": transactions,
+        }
+    except Exception as e:
+        logger.error(f"Error fetching wallet transactions: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 

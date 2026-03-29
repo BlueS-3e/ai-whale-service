@@ -45,8 +45,8 @@ const tierIcons = {
 
 const tierColors = {
   demo: "border-gray-300 dark:border-gray-700",
-  starter: "border-blue-500 dark:border-blue-400",
-  growth: "border-purple-500 dark:border-purple-400 ring-2 ring-purple-500/50",
+  starter: "border-amber-500 dark:border-amber-400",
+  growth: "border-orange-500 dark:border-orange-400 ring-2 ring-orange-500/50",
   enterprise: "border-yellow-500 dark:border-yellow-400",
 };
 
@@ -120,7 +120,7 @@ export default function PricingPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" />
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500" />
       </div>
     );
   }
@@ -136,9 +136,9 @@ export default function PricingPage() {
       <header className="border-b bg-white/60 dark:bg-gray-900/60 backdrop-blur-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <Activity className="h-8 w-8 text-blue-600" />
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              AI Whale Service
+            <Activity className="h-8 w-8 text-amber-500" />
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
+              BNB Whale AI
             </h1>
           </Link>
           <div className="flex items-center gap-4">
@@ -155,7 +155,7 @@ export default function PricingPage() {
         <div className="max-w-7xl mx-auto">
           {/* Hero Section */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
               Choose Your Plan
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
@@ -206,7 +206,7 @@ export default function PricingPage() {
                     placeholder="your@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500"
                   />
                   <div className="relative">
                     <div className="absolute inset-0 flex items-center">
@@ -249,14 +249,14 @@ export default function PricingPage() {
                   }`}
                 >
                   {isPopular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-semibold rounded-full">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-orange-600 to-yellow-600 text-white text-sm font-semibold rounded-full">
                       Most Popular
                     </div>
                   )}
 
                   <CardHeader>
                     <div className="flex items-center gap-2 mb-2">
-                      <Icon className="h-6 w-6 text-blue-600" />
+                      <Icon className="h-6 w-6 text-amber-500" />
                       <CardTitle className="capitalize">{tier.name}</CardTitle>
                     </div>
                     <CardDescription>{tier.description}</CardDescription>
@@ -311,7 +311,7 @@ export default function PricingPage() {
                         <Button
                           onClick={() => handleCheckout(tierKey, 'stripe_card')}
                           disabled={checkoutLoading === tierKey || (!email && !isConnected)}
-                          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                          className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600"
                         >
                           {checkoutLoading === tierKey ? (
                             <span className="flex items-center gap-2">
@@ -358,7 +358,7 @@ export default function PricingPage() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-3">
                     <div className="flex items-center gap-2">
-                      <CreditCard className="h-5 w-5 text-blue-600" />
+                      <CreditCard className="h-5 w-5 text-amber-500" />
                       <h3 className="font-semibold">Traditional Payments</h3>
                     </div>
                     <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
@@ -379,7 +379,7 @@ export default function PricingPage() {
 
                   <div className="space-y-3">
                     <div className="flex items-center gap-2">
-                      <Wallet className="h-5 w-5 text-purple-600" />
+                      <Wallet className="h-5 w-5 text-orange-500" />
                       <h3 className="font-semibold">Crypto Payments</h3>
                     </div>
                     <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">

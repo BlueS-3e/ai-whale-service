@@ -1,4 +1,4 @@
-# 🚀 Complete Setup Guide - AI Whale Service with Web3
+# 🚀 Complete Setup Guide - BNB Whale AI with Web3
 
 This guide will get your entire platform running in **under 10 minutes**!
 
@@ -326,7 +326,6 @@ ETHEREUM_WS_URL=wss://eth-mainnet.g.alchemy.com/v2/YOUR_API_KEY
 
 - **[Frontend README](apps/README.md)** - Detailed frontend guide
 - **[Web3 Setup](WEB3_SETUP.md)** - Blockchain integration details
-- **[Platform Complete](FRONTEND_COMPLETE.md)** - Overview of entire platform
 
 ---
 
@@ -370,4 +369,3 @@ Common issues:
 For more help, check the troubleshooting sections in:
 - [apps/README.md](apps/README.md)
 - [WEB3_SETUP.md](WEB3_SETUP.md)
-- [FRONTEND_COMPLETE.md](FRONTEND_COMPLETE.md)

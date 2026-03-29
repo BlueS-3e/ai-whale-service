@@ -2,8 +2,8 @@
 
 # Dashboard Status Check Script
 
-echo "📊 AI Whale Service - Dashboard Status"
-echo "========================================"
+echo "📊 BNB Whale AI - Dashboard Status"
+echo "========================================\"
 echo ""
 
 # Check Demo Dashboard (Port 3000)

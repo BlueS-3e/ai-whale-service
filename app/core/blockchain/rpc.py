@@ -12,6 +12,8 @@ from web3 import Web3
 # from web3.middleware import geth_poa_middleware
 import logging
 
+from app.services.etherscan import EtherscanService
+
 logger = logging.getLogger(__name__)
 
 
@@ -20,6 +22,7 @@ class BlockchainRPC:
 
     def __init__(self):
         self.connections: Dict[str, Web3] = {}
+        self.etherscan = EtherscanService()
         self._initialize_connections()
 
     def _initialize_connections(self):
@@ -96,6 +99,39 @@ class BlockchainRPC:
         except Exception as e:
             logger.error(f"Error fetching transaction {tx_hash} on {chain}: {e}")
             return {'error': str(e)}
+
+    async def get_transaction_history(
+        self,
+        wallet_address: str,
+        chain: str = 'ethereum',
+        limit: int = 10
+    ) -> List[Dict[str, Any]]:
+        """Get recent wallet transactions from explorer APIs."""
+        try:
+            transactions = await self.etherscan.get_transactions(
+                address=wallet_address,
+                chain=chain,
+                limit=limit,
+            )
+
+            normalized: List[Dict[str, Any]] = []
+            for tx in transactions:
+                normalized.append(
+                    {
+                        'hash': tx.get('hash'),
+                        'from': tx.get('from'),
+                        'to': tx.get('to'),
+                        'value': tx.get('value'),
+                        'timestamp': tx.get('timeStamp'),
+                        'block_number': tx.get('blockNumber'),
+                        'chain': chain,
+                    }
+                )
+
+            return normalized
+        except Exception as e:
+            logger.error(f"Error fetching transaction history for {wallet_address} on {chain}: {e}")
+            return []
 
     async def get_recent_whale_transactions(
         self,

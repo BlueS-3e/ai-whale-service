@@ -8,7 +8,7 @@ from app.api.v1 import endpoints
 # Create FastAPI app
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    description="AI-powered cryptocurrency whale movement prediction and analysis service",
+    description="BNB Whale AI - AI-powered whale movement prediction for the BNB ecosystem",
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc"

@@ -2,7 +2,7 @@
 
 # Stop all running dashboard processes
 
-echo "🛑 Stopping AI Whale Service Dashboards..."
+echo "🛑 Stopping BNB Whale AI Dashboards..."
 
 # Kill from PID files if they exist
 if [ -f /tmp/customer-dashboard.pid ]; then
