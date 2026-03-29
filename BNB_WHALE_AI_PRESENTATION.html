@@ -38,7 +38,7 @@
         /* Slide backgrounds */
         .slide.cover {
             background: linear-gradient(135deg, #FCD34D 0%, #F97316 100%);
-            color: white;
+            color: #000;
             text-align: center;
         }
 
@@ -110,13 +110,13 @@
 
         .subtitle {
             font-size: 1.8rem;
-            opacity: 0.95;
+            opacity: 1;
             margin-bottom: 20px;
         }
 
         .tagline {
             font-size: 1.5rem;
-            opacity: 0.85;
+            opacity: 1;
         }
 
         /* Two column layout */
@@ -160,7 +160,7 @@
         .metric-box p {
             font-size: 1.1rem;
             margin: 0;
-            opacity: 0.9;
+            opacity: 1;
         }
 
         /* Contract address */
@@ -198,7 +198,7 @@
         .tech-item p {
             font-size: 0.95rem;
             margin: 0;
-            opacity: 0.85;
+            opacity: 1;
         }
 
         /* Phase items */
@@ -250,7 +250,7 @@
         .timeline-content p {
             margin: 0;
             font-size: 1rem;
-            opacity: 0.9;
+            opacity: 1;
         }
 
         /* Slide number */
@@ -259,7 +259,8 @@
             bottom: 30px;
             right: 40px;
             font-size: 1rem;
-            opacity: 0.6;
+            opacity: 0;
+            display: none;
         }
 
         /* Print styles */
@@ -283,8 +284,9 @@
             margin-bottom: 40px;
             display: inline-block;
             padding: 12px 24px;
-            background: rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.15);
             border-radius: 8px;
+            color: #000;
         }
 
         .accent-text {
@@ -293,7 +295,8 @@
 
         .footer-text {
             font-size: 1rem;
-            opacity: 0.8;
+            opacity: 0;
+            display: none;
             margin-top: 60px;
         }
     </style>
@@ -302,12 +305,12 @@
     <div class="presentation">
 
         <!-- Slide 1: Cover -->
-        <div class="slide cover">
+        <div class="slide cover" style="color: #000;">
             <div class="slide-content">
                 <div class="logo-area">🐋 BNB Whale AI</div>
-                <h1>On-Chain AI Prediction Platform</h1>
-                <p class="subtitle">Predicting whale movements with cryptographic proof</p>
-                <p class="tagline">BNB Chain Hackathon 2026</p>
+                <h1 style="color: #000;">On-Chain AI Prediction Platform</h1>
+                <p class="subtitle" style="color: #000;">Predicting whale movements with cryptographic proof</p>
+                <p class="tagline" style="color: #000;">BNB Chain Hackathon 2026</p>
                 <div class="footer-text">Team: AI Whale Service | Date: March 2026</div>
             </div>
             <div class="slide-number">1 / 10</div>
@@ -519,10 +522,10 @@
         </div>
 
         <!-- Slide 10: Call to Action -->
-        <div class="slide cover" style="background: linear-gradient(135deg, #111827 0%, #1f2937 100%);">
+        <div class="slide cover" style="background: linear-gradient(135deg, #111827 0%, #1f2937 100%); color: white;">
             <div class="slide-content">
                 <h1>Let's Build the Future of On-Chain AI</h1>
-                <p class="subtitle" style="margin-top: 60px;">Join us in revolutionizing whale tracking on BNB Chain</p>
+                <p class="subtitle" style="color: white; margin-top: 60px;">Join us in revolutionizing whale tracking on BNB Chain</p>
                 
                 <div style="margin-top: 80px;">
                     <div class="metric-box" style="background: rgba(249,115,22,0.2); border-color: #F97316;">
